@@ -1,2 +1,0 @@
-[     545ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:5174/api/v1/dreams/:0
-[    1060ms] [ERROR] Failed to load resource: the server responded with a status of 401 (Unauthorized) @ http://localhost:5174/api/v1/dreams/:0
