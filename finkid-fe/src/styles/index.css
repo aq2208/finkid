@@ -1364,19 +1364,25 @@ textarea.input {
 
   .phone-frame {
     width: 100% !important;
-    height: auto !important;
-    min-height: 100dvh;
+    height: 100dvh !important;
+    min-height: unset;
     border: none;
     border-radius: 0;
     box-shadow: none;
     transform: none;
-    overflow: visible;
+    overflow: hidden !important;
   }
 
   .phone-frame::before,
   .phone-frame::after { display: none; }
 
-  .page-content {
-    padding-top: calc(env(safe-area-inset-top, 16px) + var(--space-md));
+  .page-hero {
+    padding-top: calc(env(safe-area-inset-top, 16px) + 20px);
+  }
+}
+
+@media (display-mode: standalone) {
+  .page-hero {
+    padding-top: calc(env(safe-area-inset-top, 16px) + 20px);
   }
 }

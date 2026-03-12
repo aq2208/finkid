@@ -40,7 +40,16 @@
       "Skill(claude-md-management:revise-claude-md)",
       "Bash(tree -L 3 -I 'venv|node_modules|__pycache__|*.egg-info' /Users/nguyenanhquan/Documents/coding/finkid 2>/dev/null || find /Users/nguyenanhquan/Documents/coding/finkid -not -path '*/venv/*' -not -path '*/node_modules/*' -not -path '*/__pycache__/*' -type f -o -type d | head -60)",
       "Bash(find /Users/nguyenanhquan/Documents/coding/finkid -name \".env.example\" -o -name \"*.example\" -o -name \"Dockerfile\" -o -name \"docker-compose*\" -o -name \".github\" -type d 2>/dev/null | grep -v venv | grep -v node_modules)",
-      "Bash(git init:*)"
+      "Bash(git init:*)",
+      "Bash(git rm:*)",
+      "Bash(git commit:*)",
+      "Bash(gh repo:*)",
+      "Bash(which git:*)",
+      "Bash(brew install:*)",
+      "Bash(gh auth:*)",
+      "Bash(cd /Users/nguyenanhquan/Documents/coding/finkid/finkid-fe && npm install -D vite-plugin-pwa @vite-pwa/assets-generator 2>&1 | tail -5)",
+      "Bash(npx @vite-pwa/assets-generator --preset minimal public/pwa-icon.svg 2>&1)",
+      "Bash(npm run:*)"
     ]
   }
 }
