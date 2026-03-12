@@ -74,7 +74,7 @@ export default function Tasks() {
   return (
     <div className="page">
       {/* Hero */}
-      <div className="page-hero hero-coral" style={{ paddingBottom: 48 }}>
+      <div className="page-hero hero-coral">
         <div className="greeting animate-fadeInUp">Task Pool</div>
         <div className="greeting-sub">
           {isParent ? 'Create tasks & reward your kids' : 'Pick up tasks to earn points!'}

@@ -89,7 +89,7 @@ export default function ParentHome() {
   return (
     <div className="page">
       {/* Hero */}
-      <div className="page-hero hero-mint" style={{ paddingBottom: 48 }}>
+      <div className="page-hero hero-mint">
         <div className="greeting animate-fadeInUp">
           Hi, {user?.display_name}! 👋
         </div>

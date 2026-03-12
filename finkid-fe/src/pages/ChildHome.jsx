@@ -62,7 +62,6 @@ export default function ChildHome() {
       {/* Hero */}
       <div className="page-hero" style={{
         background: 'linear-gradient(135deg, #FF9A6C 0%, #FF6B5B 40%, #9C88FF 100%)',
-        paddingBottom: 48,
       }}>
         <div className="greeting animate-fadeInUp">
           Hi, {user?.display_name}! 🌟

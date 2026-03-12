@@ -92,7 +92,7 @@ export default function Dreams() {
   return (
     <div className="page">
       {/* Hero */}
-      <div className="page-hero hero-grape" style={{ paddingBottom: 48 }}>
+      <div className="page-hero hero-grape">
         <div className="greeting animate-fadeInUp">
           {isParent ? "Kids' Dreams" : 'My Dreams'}
         </div>

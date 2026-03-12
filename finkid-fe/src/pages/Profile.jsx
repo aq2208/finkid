@@ -97,7 +97,6 @@ export default function Profile() {
           background: isParent
             ? 'linear-gradient(135deg, #5DD67C 0%, #4FC3F7 100%)'
             : 'linear-gradient(135deg, #FF9A6C 0%, #9C88FF 100%)',
-          paddingBottom: 56,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
