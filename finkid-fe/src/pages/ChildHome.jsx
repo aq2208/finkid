@@ -193,7 +193,7 @@ export default function ChildHome() {
             </div>
           ) : (
             myTasks.map(task => (
-              <div key={task.id} className="task-card">
+              <motion.div key={task.id} className="task-card" whileTap={{ scale: 0.97 }}>
                 {task.status === 'picked_up' ? (
                   <button
                     onClick={() => handleComplete(task.id)}
@@ -223,7 +223,7 @@ export default function ChildHome() {
                 <span className="badge badge-points" style={{ display: 'inline-flex', alignItems: 'center', gap: 3, flexShrink: 0 }}>
                   +{task.points} <PiStarFill size={11} />
                 </span>
-              </div>
+              </motion.div>
             ))
           )}
         </div>

@@ -115,7 +115,7 @@ export default function Tasks() {
               const meta = STATUS_META[task.status] || STATUS_META.available
               const { Icon } = meta
               return (
-                <div key={task.id} className="task-card">
+                <motion.div key={task.id} className="task-card" whileTap={{ scale: 0.97 }}>
                   {/* Left: checkbox for child's active tasks, status icon otherwise */}
                   {isChild && task.status === 'picked_up' ? (
                     <button
@@ -211,7 +211,7 @@ export default function Tasks() {
                       </motion.button>
                     )}
                   </div>
-                </div>
+                </motion.div>
               )
             })
           )}

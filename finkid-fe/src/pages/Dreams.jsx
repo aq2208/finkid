@@ -142,7 +142,7 @@ export default function Dreams() {
                 : 'linear-gradient(135deg, #C3B1FF, #9C88FF)'
 
               return (
-                <div key={dream.id} className={`dream-card status-${dream.status}`} style={{ padding: '14px 16px' }}>
+                <motion.div key={dream.id} className={`dream-card status-${dream.status}`} style={{ padding: '14px 16px' }} whileTap={{ scale: 0.97 }}>
                   {/* Main row */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                     {dream.image_url ? (
@@ -256,7 +256,7 @@ export default function Dreams() {
                       </motion.button>
                     </div>
                   )}
-                </div>
+                </motion.div>
               )
             })
           )}

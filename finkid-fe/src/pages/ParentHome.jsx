@@ -169,7 +169,7 @@ export default function ParentHome() {
               <span className="badge badge-status-pending_verification">{pendingTasks.length}</span>
             </div>
             {pendingTasks.map(task => (
-              <div key={task.id} className="approval-card">
+              <motion.div key={task.id} className="approval-card" whileTap={{ scale: 0.97 }}>
                 <div className="approval-title">{task.title}</div>
                 <div className="approval-meta">
                   Done by: <strong>{task.child_name || 'Child'}</strong>
@@ -196,7 +196,7 @@ export default function ParentHome() {
                     <PiXBold size={14} /> Reject
                   </motion.button>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         )}
@@ -209,7 +209,7 @@ export default function ParentHome() {
               <span className="badge badge-status-pending_approval">{pendingDreams.length}</span>
             </div>
             {pendingDreams.map(dream => (
-              <div key={dream.id} className="approval-card" style={{ borderLeftColor: 'var(--grape)' }}>
+              <motion.div key={dream.id} className="approval-card" style={{ borderLeftColor: 'var(--grape)' }} whileTap={{ scale: 0.97 }}>
                 <div className="approval-title">{dream.title}</div>
                 <div className="approval-meta">
                   By: <strong>{dream.child_name || 'Child'}</strong>
@@ -247,7 +247,7 @@ export default function ParentHome() {
                     <PiXBold size={14} /> Reject
                   </motion.button>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         )}

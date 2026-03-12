@@ -33,23 +33,25 @@ export default function ChooseRole() {
         <div className="auth-sheet-handle" />
 
         <div className="role-grid">
-          <div
+          <motion.div
             className={`role-card ${selected === 'child' ? 'selected' : ''}`}
             onClick={() => setSelected('child')}
+            whileTap={{ scale: 0.97 }}
           >
             <span className="role-emoji">🧒</span>
             <div className="role-name">I'm a Kid</div>
             <div className="role-desc">Earn points &amp; achieve my dreams!</div>
-          </div>
+          </motion.div>
 
-          <div
+          <motion.div
             className={`role-card ${selected === 'parent' ? 'selected' : ''}`}
             onClick={() => setSelected('parent')}
+            whileTap={{ scale: 0.97 }}
           >
             <span className="role-emoji">👨‍👩‍👧</span>
             <div className="role-name">I'm a Parent</div>
             <div className="role-desc">Help my kids learn about money</div>
-          </div>
+          </motion.div>
         </div>
 
         <motion.button
