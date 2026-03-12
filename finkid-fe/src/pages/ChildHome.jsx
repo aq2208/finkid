@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { api } from '../lib/api'
+import { motion } from 'framer-motion'
 import {
   PiStarFill,
   PiSparkle,
@@ -87,10 +88,11 @@ export default function ChildHome() {
           <div className="empty-state animate-fadeInUp" style={{ padding: '20px', animationDelay: '0.15s' }}>
             <span className="empty-emoji">🌈</span>
             <p>No active dream! Pick one to save toward 👇</p>
-            <button className="btn btn-primary btn-sm" onClick={() => navigate('/dreams')}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+            <motion.button className="btn btn-primary btn-sm" onClick={() => navigate('/dreams')}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}
+              whileTap={{ scale: 0.94 }}>
               <PiPlusBold size={13} /> Go to Dreams
-            </button>
+            </motion.button>
           </div>
         ) : (() => {
           const progress = activeDream.target_points
@@ -227,13 +229,14 @@ export default function ChildHome() {
         </div>
 
         {myTasks.length > 0 && (
-          <button
+          <motion.button
             className="btn btn-secondary btn-full"
             style={{ marginTop: 12 }}
             onClick={() => navigate('/tasks')}
+            whileTap={{ scale: 0.94 }}
           >
             Show more
-          </button>
+          </motion.button>
         )}
 
       </div>

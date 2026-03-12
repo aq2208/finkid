@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { api } from '../lib/api'
 import toast from 'react-hot-toast'
+import { motion } from 'framer-motion'
 import {
   PiCopySimpleFill, PiStarFill,
   PiGearSixFill, PiCaretRightBold, PiWarningFill,
@@ -231,13 +232,14 @@ export default function Profile() {
         )}
 
         {/* Logout */}
-        <button
+        <motion.button
           className="btn btn-danger btn-full animate-fadeInUp"
           style={{ animationDelay: '0.2s' }}
           onClick={logout}
+          whileTap={{ scale: 0.94 }}
         >
           🚪 Logout
-        </button>
+        </motion.button>
 
       </div>
 
@@ -301,9 +303,9 @@ export default function Profile() {
               </button>
             )}
 
-            <button className="btn btn-secondary btn-full" style={{ marginTop: 8 }} onClick={() => setShowSettings(false)}>
+            <motion.button className="btn btn-secondary btn-full" style={{ marginTop: 8 }} onClick={() => setShowSettings(false)} whileTap={{ scale: 0.94 }}>
               Cancel
-            </button>
+            </motion.button>
           </div>
         </div>
       )}
@@ -326,17 +328,18 @@ export default function Profile() {
                 autoCapitalize="words"
               />
             </div>
-            <button
+            <motion.button
               className="btn btn-primary btn-full"
               style={{ marginBottom: 10 }}
               onClick={handleSaveName}
               disabled={saving}
+              whileTap={{ scale: 0.94 }}
             >
               {saving ? 'Saving…' : 'Save'}
-            </button>
-            <button className="btn btn-secondary btn-full" onClick={() => setShowEditName(false)}>
+            </motion.button>
+            <motion.button className="btn btn-secondary btn-full" onClick={() => setShowEditName(false)} whileTap={{ scale: 0.94 }}>
               Cancel
-            </button>
+            </motion.button>
           </div>
         </div>
       )}
@@ -366,17 +369,18 @@ export default function Profile() {
                 </button>
               ))}
             </div>
-            <button
+            <motion.button
               className="btn btn-primary btn-full"
               style={{ marginBottom: 10 }}
               onClick={handleSaveAvatar}
               disabled={saving || !selectedAvatar}
+              whileTap={{ scale: 0.94 }}
             >
               {saving ? 'Saving…' : 'Save'}
-            </button>
-            <button className="btn btn-secondary btn-full" onClick={() => setShowEditAvatar(false)}>
+            </motion.button>
+            <motion.button className="btn btn-secondary btn-full" onClick={() => setShowEditAvatar(false)} whileTap={{ scale: 0.94 }}>
               Cancel
-            </button>
+            </motion.button>
           </div>
         </div>
       )}
@@ -393,17 +397,18 @@ export default function Profile() {
                 You will lose access to family tasks, dreams, and the leaderboard. You can rejoin using a code.
               </div>
             </div>
-            <button
+            <motion.button
               className="btn btn-danger btn-full"
               style={{ marginBottom: 10 }}
               onClick={handleLeaveFamily}
               disabled={saving}
+              whileTap={{ scale: 0.94 }}
             >
               {saving ? 'Leaving…' : 'Yes, Leave Family'}
-            </button>
-            <button className="btn btn-secondary btn-full" onClick={() => setShowLeaveFamily(false)}>
+            </motion.button>
+            <motion.button className="btn btn-secondary btn-full" onClick={() => setShowLeaveFamily(false)} whileTap={{ scale: 0.94 }}>
               Cancel
-            </button>
+            </motion.button>
           </div>
         </div>
       )}

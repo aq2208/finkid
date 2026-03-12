@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { api } from '../lib/api'
 import toast from 'react-hot-toast'
+import { motion } from 'framer-motion'
 import {
   PiCheckBold,
   PiXBold,
@@ -98,18 +99,19 @@ export default function ParentHome() {
         </div>
         {/* Family code chip */}
         {family && (
-          <button
+          <motion.button
             className="points-chip animate-bounceIn"
             style={{ animationDelay: '0.1s', cursor: 'pointer', border: 'none', fontFamily: 'var(--font)' }}
             onClick={() => {
               navigator.clipboard.writeText(family.join_code)
               toast.success('Family code copied! 📋')
             }}
+            whileTap={{ scale: 0.94 }}
           >
             <span>🏠</span>
             <span style={{ fontFamily: 'var(--font-display)', letterSpacing: 3 }}>{family.join_code}</span>
             <span style={{ fontSize: '0.85rem', opacity: 0.8 }}>tap to copy</span>
-          </button>
+          </motion.button>
         )}
       </div>
 
@@ -177,20 +179,22 @@ export default function ParentHome() {
                   </span>
                 </div>
                 <div className="approval-actions">
-                  <button
+                  <motion.button
                     className="btn btn-secondary btn-sm"
                     onClick={() => handleVerifyTask(task.id, true)}
                     disabled={actionLoading === task.id}
+                    whileTap={{ scale: 0.94 }}
                   >
                     <PiCheckBold size={14} /> Approve
-                  </button>
-                  <button
+                  </motion.button>
+                  <motion.button
                     className="btn btn-danger btn-sm"
                     onClick={() => handleVerifyTask(task.id, false)}
                     disabled={actionLoading === task.id}
+                    whileTap={{ scale: 0.94 }}
                   >
                     <PiXBold size={14} /> Reject
-                  </button>
+                  </motion.button>
                 </div>
               </div>
             ))}
@@ -226,20 +230,22 @@ export default function ParentHome() {
                   />
                 </div>
                 <div className="approval-actions">
-                  <button
+                  <motion.button
                     className="btn btn-secondary btn-sm"
                     onClick={() => handleApproveDream(dream.id)}
                     disabled={actionLoading === dream.id}
+                    whileTap={{ scale: 0.94 }}
                   >
                     <PiCheckBold size={14} /> Approve
-                  </button>
-                  <button
+                  </motion.button>
+                  <motion.button
                     className="btn btn-danger btn-sm"
                     onClick={() => handleRejectDream(dream.id)}
                     disabled={actionLoading === dream.id}
+                    whileTap={{ scale: 0.94 }}
                   >
                     <PiXBold size={14} /> Reject
-                  </button>
+                  </motion.button>
                 </div>
               </div>
             ))}
@@ -256,14 +262,16 @@ export default function ParentHome() {
 
         {/* Quick Actions */}
         <div style={{ display: 'flex', gap: 10, marginTop: 8 }} className="animate-fadeInUp">
-          <button className="btn btn-primary btn-full" onClick={() => navigate('/tasks')}
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+          <motion.button className="btn btn-primary btn-full" onClick={() => navigate('/tasks')}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+            whileTap={{ scale: 0.94 }}>
             <PiClipboardTextFill size={16} /> Manage Tasks
-          </button>
-          <button className="btn btn-secondary btn-full" onClick={() => navigate('/dreams')}
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+          </motion.button>
+          <motion.button className="btn btn-secondary btn-full" onClick={() => navigate('/dreams')}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+            whileTap={{ scale: 0.94 }}>
             <PiSparkle size={16} /> View Dreams
-          </button>
+          </motion.button>
         </div>
 
       </div>

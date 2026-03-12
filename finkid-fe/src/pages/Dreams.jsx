@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext'
 import { api } from '../lib/api'
 import { supabase } from '../lib/supabase'
 import toast from 'react-hot-toast'
+import { motion } from 'framer-motion'
 import {
   PiStarFill,
   PiCheckBold,
@@ -210,14 +211,15 @@ export default function Dreams() {
 
                   {/* Child: Activate */}
                   {isChild && ['approved', 'in_progress'].includes(dream.status) && !isActive && (
-                    <button
+                    <motion.button
                       className="btn btn-warning btn-sm"
                       style={{ marginTop: 10, width: '100%' }}
                       onClick={() => handleActivate(dream.id)}
                       disabled={actionLoading === dream.id}
+                      whileTap={{ scale: 0.94 }}
                     >
                       <PiTargetFill size={14} /> Set as Active Dream
-                    </button>
+                    </motion.button>
                   )}
 
                   {/* Parent: Approve / Reject */}
@@ -233,23 +235,25 @@ export default function Dreams() {
                         style={{ flex: 1 }}
                         inputMode="numeric"
                       />
-                      <button
+                      <motion.button
                         className="btn btn-secondary btn-sm"
                         onClick={() => handleApprove(dream.id)}
                         disabled={actionLoading === dream.id}
                         style={{ flexShrink: 0 }}
+                        whileTap={{ scale: 0.94 }}
                       >
                         <PiCheckBold size={14} /> Approve
-                      </button>
-                      <button
+                      </motion.button>
+                      <motion.button
                         aria-label="Reject dream"
                         className="btn btn-danger btn-sm"
                         onClick={() => handleReject(dream.id)}
                         disabled={actionLoading === dream.id}
                         style={{ flexShrink: 0, padding: '8px 10px' }}
+                        whileTap={{ scale: 0.94 }}
                       >
                         <PiXBold size={14} />
-                      </button>
+                      </motion.button>
                     </div>
                   )}
                 </div>
@@ -314,10 +318,10 @@ export default function Dreams() {
             )}
 
             <div style={{ display: 'flex', gap: 10 }}>
-              <button className="btn btn-ghost btn-full" onClick={() => { setShowCreate(false); setImageFile(null); setImagePreview(null) }}>Cancel</button>
-              <button className="btn btn-primary btn-full" onClick={handleCreate} disabled={creating || uploading}>
+              <motion.button className="btn btn-ghost btn-full" onClick={() => { setShowCreate(false); setImageFile(null); setImagePreview(null) }} whileTap={{ scale: 0.94 }}>Cancel</motion.button>
+              <motion.button className="btn btn-primary btn-full" onClick={handleCreate} disabled={creating || uploading} whileTap={{ scale: 0.94 }}>
                 {uploading ? 'Uploading…' : creating ? 'Creating…' : <><PiSparkle size={16} /> Create Dream</>}
-              </button>
+              </motion.button>
             </div>
           </div>
         </div>

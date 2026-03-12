@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import toast from 'react-hot-toast'
+import { motion } from 'framer-motion'
 
 export default function Register() {
   const { register } = useAuth()
@@ -99,14 +100,15 @@ export default function Register() {
             />
           </div>
 
-          <button
+          <motion.button
             className="btn btn-primary btn-full btn-lg"
             type="submit"
             disabled={loading}
             style={{ marginTop: 4 }}
+            whileTap={{ scale: 0.94 }}
           >
             {loading ? '⏳ Creating...' : '✨ Create Account'}
-          </button>
+          </motion.button>
         </form>
 
         <div className="auth-footer" style={{ marginTop: 20 }}>

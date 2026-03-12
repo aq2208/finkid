@@ -339,7 +339,6 @@ input, textarea, select {
 }
 
 .btn:active {
-  transform: translateY(3px);
 }
 
 .btn:disabled {
@@ -357,7 +356,6 @@ input, textarea, select {
 }
 .btn-primary:active:not(:disabled) {
   box-shadow: 0 1px 0 var(--coral-dark);
-  transform: translateY(3px);
 }
 
 /* Secondary — Mint */
@@ -368,7 +366,6 @@ input, textarea, select {
 }
 .btn-secondary:active:not(:disabled) {
   box-shadow: 0 1px 0 var(--mint-dark);
-  transform: translateY(3px);
 }
 
 /* Warning — Sun */
@@ -379,7 +376,6 @@ input, textarea, select {
 }
 .btn-warning:active:not(:disabled) {
   box-shadow: 0 1px 0 var(--sun-dark);
-  transform: translateY(3px);
 }
 
 /* Danger — Coral variant */
@@ -390,7 +386,6 @@ input, textarea, select {
 }
 .btn-danger:active:not(:disabled) {
   box-shadow: 0 1px 0 var(--coral-dark);
-  transform: translateY(3px);
 }
 
 /* Ghost */
@@ -1145,7 +1140,6 @@ textarea.input {
 }
 
 .fab:active {
-  transform: scale(0.95) translateY(3px);
   box-shadow: 0 1px 0 var(--coral-dark);
 }
 

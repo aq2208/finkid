@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { api } from '../lib/api'
 import toast from 'react-hot-toast'
+import { motion } from 'framer-motion'
 import {
   PiClipboardTextFill,
   PiLightningFill,
@@ -162,48 +163,52 @@ export default function Tasks() {
                     </span>
 
                     {isChild && task.status === 'available' && (
-                      <button
+                      <motion.button
                         className="btn btn-secondary btn-sm"
                         onClick={() => handlePickup(task.id)}
                         disabled={actionLoading === task.id}
+                        whileTap={{ scale: 0.94 }}
                       >
                         <PiHandFill size={14} /> Pick Up
-                      </button>
+                      </motion.button>
                     )}
 
                     {isParent && task.status === 'pending_verification' && (
                       <div style={{ display: 'flex', gap: 4 }}>
-                        <button
+                        <motion.button
                           aria-label="Approve task"
                           className="btn btn-secondary btn-sm"
                           style={{ padding: '8px 10px', minHeight: 'unset' }}
                           onClick={() => handleVerify(task.id, true)}
                           disabled={actionLoading === task.id}
+                          whileTap={{ scale: 0.94 }}
                         >
                           <PiCheckBold size={16} />
-                        </button>
-                        <button
+                        </motion.button>
+                        <motion.button
                           aria-label="Reject task"
                           className="btn btn-danger btn-sm"
                           style={{ padding: '8px 10px', minHeight: 'unset' }}
                           onClick={() => handleVerify(task.id, false)}
                           disabled={actionLoading === task.id}
+                          whileTap={{ scale: 0.94 }}
                         >
                           <PiXBold size={16} />
-                        </button>
+                        </motion.button>
                       </div>
                     )}
 
                     {isParent && task.status === 'available' && (
-                      <button
+                      <motion.button
                         aria-label="Delete task"
                         className="btn btn-ghost btn-sm"
                         onClick={() => handleDelete(task.id)}
                         disabled={actionLoading === task.id}
                         style={{ color: 'var(--coral)', padding: '8px 10px' }}
+                        whileTap={{ scale: 0.94 }}
                       >
                         <PiTrashSimpleFill size={16} />
-                      </button>
+                      </motion.button>
                     )}
                   </div>
                 </div>
@@ -241,10 +246,10 @@ export default function Tasks() {
             </div>
 
             <div style={{ display: 'flex', gap: 10 }}>
-              <button className="btn btn-ghost btn-full" onClick={() => setShowCreate(false)}>Cancel</button>
-              <button className="btn btn-primary btn-full" onClick={handleCreate} disabled={creating}>
+              <motion.button className="btn btn-ghost btn-full" onClick={() => setShowCreate(false)} whileTap={{ scale: 0.94 }}>Cancel</motion.button>
+              <motion.button className="btn btn-primary btn-full" onClick={handleCreate} disabled={creating} whileTap={{ scale: 0.94 }}>
                 {creating ? 'Creating…' : <><PiCheckBold size={16} /> Create</>}
-              </button>
+              </motion.button>
             </div>
           </div>
         </div>

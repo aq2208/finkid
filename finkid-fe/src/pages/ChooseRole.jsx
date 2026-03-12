@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import toast from 'react-hot-toast'
+import { motion } from 'framer-motion'
 
 export default function ChooseRole() {
   const { setRole, logout } = useAuth()
@@ -51,13 +52,14 @@ export default function ChooseRole() {
           </div>
         </div>
 
-        <button
+        <motion.button
           className="btn btn-primary btn-full btn-lg"
           onClick={handleContinue}
           disabled={!selected || loading}
+          whileTap={{ scale: 0.94 }}
         >
           {loading ? '⏳...' : '✨ Continue'}
-        </button>
+        </motion.button>
 
         <div className="auth-footer" style={{ marginTop: 16 }}>
           <a href="#" onClick={(e) => { e.preventDefault(); logout() }}>← Back to Login</a>

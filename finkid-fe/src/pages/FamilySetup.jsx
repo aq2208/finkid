@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { api } from '../lib/api'
 import toast from 'react-hot-toast'
+import { motion } from 'framer-motion'
 
 export default function FamilySetup() {
   const { isParent, refreshProfile, logout } = useAuth()
@@ -57,13 +58,13 @@ export default function FamilySetup() {
         {!mode && !createdCode && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             {isParent && (
-              <button className="btn btn-primary btn-full btn-lg" onClick={() => setMode('create')}>
+              <motion.button className="btn btn-primary btn-full btn-lg" onClick={() => setMode('create')} whileTap={{ scale: 0.94 }}>
                 🏠 Create a Family
-              </button>
+              </motion.button>
             )}
-            <button className="btn btn-secondary btn-full btn-lg" onClick={() => setMode('join')}>
+            <motion.button className="btn btn-secondary btn-full btn-lg" onClick={() => setMode('join')} whileTap={{ scale: 0.94 }}>
               🔑 Join with Code
-            </button>
+            </motion.button>
           </div>
         )}
 
@@ -82,16 +83,17 @@ export default function FamilySetup() {
                 autoCapitalize="words"
               />
             </div>
-            <button
+            <motion.button
               className="btn btn-primary btn-full btn-lg"
               onClick={handleCreate}
               disabled={loading}
+              whileTap={{ scale: 0.94 }}
             >
               {loading ? '⏳...' : '✨ Create Family'}
-            </button>
-            <button className="btn btn-ghost btn-full" onClick={() => setMode(null)} style={{ marginTop: 8 }}>
+            </motion.button>
+            <motion.button className="btn btn-ghost btn-full" onClick={() => setMode(null)} style={{ marginTop: 8 }} whileTap={{ scale: 0.94 }}>
               ← Back
-            </button>
+            </motion.button>
           </div>
         )}
 
@@ -106,16 +108,17 @@ export default function FamilySetup() {
               Your children can use this code to join the family
             </p>
             <div className="family-code">{createdCode}</div>
-            <button
+            <motion.button
               className="btn btn-primary btn-full"
               onClick={() => {
                 navigator.clipboard.writeText(createdCode)
                 toast.success('Code copied! 📋')
               }}
               style={{ marginTop: 16 }}
+              whileTap={{ scale: 0.94 }}
             >
               📋 Copy Code
-            </button>
+            </motion.button>
           </div>
         )}
 
@@ -137,16 +140,17 @@ export default function FamilySetup() {
                 autoCapitalize="characters"
               />
             </div>
-            <button
+            <motion.button
               className="btn btn-primary btn-full btn-lg"
               onClick={handleJoin}
               disabled={loading}
+              whileTap={{ scale: 0.94 }}
             >
               {loading ? '⏳...' : '🔑 Join Family'}
-            </button>
-            <button className="btn btn-ghost btn-full" onClick={() => setMode(null)} style={{ marginTop: 8 }}>
+            </motion.button>
+            <motion.button className="btn btn-ghost btn-full" onClick={() => setMode(null)} style={{ marginTop: 8 }} whileTap={{ scale: 0.94 }}>
               ← Back
-            </button>
+            </motion.button>
           </div>
         )}
 
