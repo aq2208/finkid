@@ -1376,13 +1376,15 @@ textarea.input {
   .phone-frame::before,
   .phone-frame::after { display: none; }
 
-  .page-hero {
+  .page-hero,
+  .auth-hero {
     padding-top: calc(env(safe-area-inset-top, 16px) + 20px);
   }
 }
 
 @media (display-mode: standalone) {
-  .page-hero {
+  .page-hero,
+  .auth-hero {
     padding-top: calc(env(safe-area-inset-top, 16px) + 20px);
   }
 }
