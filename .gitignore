@@ -1,0 +1,8 @@
+finkid-be/venv/
+finkid-be/.env
+finkid-fe/.env
+finkid-fe/node_modules/
+finkid-fe/dist/
+__pycache__/
+*.pyc
+.DS_Store
