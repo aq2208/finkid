@@ -6,3 +6,5 @@ finkid-fe/dist/
 __pycache__/
 *.pyc
 .DS_Store
+.claude/settings.local.json
+.playwright-mcp/
