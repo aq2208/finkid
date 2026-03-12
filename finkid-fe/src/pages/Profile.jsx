@@ -322,6 +322,8 @@ export default function Profile() {
                 onChange={e => setNameInput(e.target.value)}
                 placeholder="Your display name"
                 autoFocus
+                autoCorrect="off"
+                autoCapitalize="words"
               />
             </div>
             <button

@@ -222,6 +222,7 @@ export default function ParentHome() {
                     value={pointsInput[dream.id] || ''}
                     onChange={(e) => setPointsInput({ ...pointsInput, [dream.id]: e.target.value })}
                     min="1"
+                    inputMode="numeric"
                   />
                 </div>
                 <div className="approval-actions">

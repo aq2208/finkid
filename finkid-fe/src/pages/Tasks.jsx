@@ -229,15 +229,15 @@ export default function Tasks() {
 
             <div className="input-group">
               <label className="input-label">Task Name</label>
-              <input className="input" placeholder="e.g., Do the dishes" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} />
+              <input className="input" placeholder="e.g., Do the dishes" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} autoCorrect="off" autoCapitalize="sentences" />
             </div>
             <div className="input-group">
               <label className="input-label">Description (optional)</label>
-              <textarea className="input" placeholder="What needs to be done?" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} />
+              <textarea className="input" placeholder="What needs to be done?" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} autoCorrect="off" autoCapitalize="sentences" />
             </div>
             <div className="input-group">
               <label className="input-label">Points Reward</label>
-              <input className="input" type="number" placeholder="e.g., 15" value={form.points} onChange={e => setForm({ ...form, points: e.target.value })} min="1" />
+              <input className="input" type="number" placeholder="e.g., 15" value={form.points} onChange={e => setForm({ ...form, points: e.target.value })} min="1" inputMode="numeric" autoComplete="off" />
             </div>
 
             <div style={{ display: 'flex', gap: 10 }}>

@@ -47,6 +47,9 @@ export default function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               autoComplete="email"
+              inputMode="email"
+              autoCorrect="off"
+              autoCapitalize="none"
             />
           </div>
 

@@ -52,6 +52,8 @@ export default function Register() {
               placeholder="What should we call you?"
               value={form.displayName}
               onChange={handleChange}
+              autoCorrect="off"
+              autoCapitalize="words"
             />
           </div>
 
@@ -63,6 +65,8 @@ export default function Register() {
               placeholder="Choose a cool username"
               value={form.username}
               onChange={handleChange}
+              autoCorrect="off"
+              autoCapitalize="none"
             />
           </div>
 
@@ -76,6 +80,9 @@ export default function Register() {
               value={form.email}
               onChange={handleChange}
               autoComplete="email"
+              inputMode="email"
+              autoCorrect="off"
+              autoCapitalize="none"
             />
           </div>
 

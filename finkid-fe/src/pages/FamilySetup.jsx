@@ -78,6 +78,8 @@ export default function FamilySetup() {
                 placeholder="e.g., The Smiths"
                 value={familyName}
                 onChange={(e) => setFamilyName(e.target.value)}
+                autoCorrect="off"
+                autoCapitalize="words"
               />
             </div>
             <button
@@ -130,6 +132,9 @@ export default function FamilySetup() {
                 onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
                 maxLength={6}
                 style={{ textAlign: 'center', letterSpacing: '6px', fontSize: '1.4rem', fontWeight: 800 }}
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="characters"
               />
             </div>
             <button

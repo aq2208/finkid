@@ -231,6 +231,7 @@ export default function Dreams() {
                         onChange={e => setPointsInput({ ...pointsInput, [dream.id]: e.target.value })}
                         min="1"
                         style={{ flex: 1 }}
+                        inputMode="numeric"
                       />
                       <button
                         className="btn btn-secondary btn-sm"
@@ -274,11 +275,11 @@ export default function Dreams() {
 
             <div className="input-group">
               <label className="input-label">What do you dream of?</label>
-              <input className="input" placeholder="e.g., New Bicycle" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} />
+              <input className="input" placeholder="e.g., New Bicycle" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} autoCorrect="off" autoCapitalize="sentences" />
             </div>
             <div className="input-group">
               <label className="input-label">Tell us more (optional)</label>
-              <textarea className="input" placeholder="Why do you want this?" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} />
+              <textarea className="input" placeholder="Why do you want this?" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} autoCorrect="off" autoCapitalize="sentences" />
             </div>
 
             {imagePreview ? (
