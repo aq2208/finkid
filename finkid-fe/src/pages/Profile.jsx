@@ -144,7 +144,7 @@ export default function Profile() {
         )}
       </div>
 
-      <div className="page-content" style={{ paddingTop: 32 }}>
+      <div className="page-content">
 
         {/* Role badge */}
         <div className="card animate-fadeInUp" style={{ marginBottom: 16, padding: '14px 20px' }}>

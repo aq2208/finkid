@@ -81,7 +81,7 @@ export default function Tasks() {
         </div>
       </div>
 
-      <div className="page-content" style={{ paddingTop: 24 }}>
+      <div className="page-content">
 
         {/* Filters */}
         <div className="tabs animate-fadeInUp" style={{ animationDelay: '0.05s' }}>

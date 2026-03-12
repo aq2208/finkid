@@ -113,7 +113,7 @@ export default function ParentHome() {
         )}
       </div>
 
-      <div className="page-content" style={{ paddingTop: 32 }}>
+      <div className="page-content">
 
         {/* Stats */}
         <div className="stats-grid animate-fadeInUp" style={{ animationDelay: '0.05s' }}>

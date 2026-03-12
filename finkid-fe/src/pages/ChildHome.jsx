@@ -77,7 +77,7 @@ export default function ChildHome() {
         </div>
       </div>
 
-      <div className="page-content" style={{ paddingTop: 32 }}>
+      <div className="page-content">
 
         {/* Dreams Section */}
         <div className="section-title animate-fadeInUp" style={{ animationDelay: '0.1s' }}>
