@@ -77,6 +77,21 @@
   padding: 0;
 }
 
+/* ── Native mobile feel ── */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button, a, [role="button"], .btn, .nav-item, .tab, .card, .role-card, .dream-mini-card {
+  touch-action: manipulation;
+}
+
+button, .btn, .nav-item, .tab, .badge, .page-hero, .auth-hero,
+.bottom-nav, label, .input-label, .section-title, .greeting, .greeting-sub {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
 html {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
@@ -93,6 +108,7 @@ body {
   justify-content: center;
   padding: 20px;
   box-sizing: border-box;
+  overscroll-behavior: none;
 }
 
 #root {
@@ -180,6 +196,7 @@ input, textarea, select {
   overflow-x: hidden;
   background: var(--bg);
   scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
 }
 .page::-webkit-scrollbar { display: none; }
 
@@ -300,14 +317,6 @@ input, textarea, select {
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    0 1px 0 var(--border),
-    0 6px 0 rgba(30,32,37,0.08),
-    0 12px 32px rgba(30,32,37,0.10);
-}
-
 /* ══════════════════════════════════════════
    BUTTONS — Duolingo-style 3D
 ══════════════════════════════════════════ */
@@ -347,10 +356,6 @@ input, textarea, select {
   color: white;
   box-shadow: 0 4px 0 var(--coral-dark), 0 8px 20px rgba(255,107,91,0.30);
 }
-.btn-primary:hover:not(:disabled) {
-  box-shadow: 0 6px 0 var(--coral-dark), 0 10px 24px rgba(255,107,91,0.35);
-  transform: translateY(-1px);
-}
 .btn-primary:active:not(:disabled) {
   box-shadow: 0 1px 0 var(--coral-dark);
   transform: translateY(3px);
@@ -361,10 +366,6 @@ input, textarea, select {
   background: var(--mint);
   color: white;
   box-shadow: 0 4px 0 var(--mint-dark), 0 8px 20px rgba(93,214,124,0.25);
-}
-.btn-secondary:hover:not(:disabled) {
-  box-shadow: 0 6px 0 var(--mint-dark);
-  transform: translateY(-1px);
 }
 .btn-secondary:active:not(:disabled) {
   box-shadow: 0 1px 0 var(--mint-dark);
@@ -400,10 +401,6 @@ input, textarea, select {
   box-shadow: none;
   font-weight: 700;
 }
-.btn-ghost:hover:not(:disabled) {
-  background: rgba(0,0,0,0.04);
-}
-
 /* Outline */
 .btn-outline {
   background: white;
@@ -767,12 +764,6 @@ textarea.input {
   box-shadow: 0 4px 0 var(--border);
 }
 
-.role-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--grape);
-  box-shadow: 0 8px 0 var(--grape-light), 0 12px 24px rgba(156,136,255,0.15);
-}
-
 .role-card.selected {
   border-color: var(--coral);
   background: var(--coral-light);
@@ -880,8 +871,6 @@ textarea.input {
   box-shadow: 0 4px 12px rgba(30,32,37,0.10);
 }
 
-.dream-mini-card:hover { transform: scale(1.04) rotate(-1deg); }
-
 .dream-mini-card:nth-child(1) { background: linear-gradient(135deg, #FFD93D, #FF9A6C); }
 .dream-mini-card:nth-child(2) { background: linear-gradient(135deg, #9C88FF, #C3B1FF); }
 .dream-mini-card:nth-child(3) { background: linear-gradient(135deg, #5DD67C, #4FC3F7); }
@@ -922,11 +911,6 @@ textarea.input {
   gap: var(--space-md);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
   border: 1.5px solid transparent;
-}
-
-.task-card:hover {
-  transform: translateX(3px);
-  border-color: var(--coral-light);
 }
 
 .task-card .task-info {
@@ -974,8 +958,6 @@ textarea.input {
   border: 1.5px solid var(--border);
   transition: transform 0.2s ease;
 }
-
-.dream-card:hover { transform: translateY(-2px); }
 
 /* Status-based card accents */
 .dream-card.status-pending_approval  { border-left: 4px solid var(--sun); }
@@ -1097,11 +1079,6 @@ textarea.input {
   box-shadow: 0 3px 0 var(--coral-dark);
 }
 
-.tab:hover:not(.active) {
-  border-color: var(--coral-light);
-  color: var(--coral);
-}
-
 /* ══════════════════════════════════════════
    MODALS
 ══════════════════════════════════════════ */
@@ -1165,11 +1142,6 @@ textarea.input {
   z-index: 50;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
   font-weight: 800;
-}
-
-.fab:hover {
-  transform: scale(1.08) translateY(-2px);
-  box-shadow: 0 6px 0 var(--coral-dark), 0 12px 32px rgba(255,107,91,0.50);
 }
 
 .fab:active {
@@ -1346,6 +1318,58 @@ textarea.input {
   text-transform: capitalize;
   font-weight: 700;
   font-size: 0.8rem;
+}
+
+/* ══════════════════════════════════════════
+   HOVER — pointer devices only (not touch)
+══════════════════════════════════════════ */
+@media (hover: hover) {
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 1px 0 var(--border),
+      0 6px 0 rgba(30,32,37,0.08),
+      0 12px 32px rgba(30,32,37,0.10);
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    box-shadow: 0 6px 0 var(--coral-dark), 0 10px 24px rgba(255,107,91,0.35);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary:hover:not(:disabled) {
+    box-shadow: 0 6px 0 var(--mint-dark);
+    transform: translateY(-1px);
+  }
+
+  .btn-ghost:hover:not(:disabled) {
+    background: rgba(0,0,0,0.04);
+  }
+
+  .role-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--grape);
+    box-shadow: 0 8px 0 var(--grape-light), 0 12px 24px rgba(156,136,255,0.15);
+  }
+
+  .dream-mini-card:hover { transform: scale(1.04) rotate(-1deg); }
+
+  .task-card:hover {
+    transform: translateX(3px);
+    border-color: var(--coral-light);
+  }
+
+  .dream-card:hover { transform: translateY(-2px); }
+
+  .tab:hover:not(.active) {
+    border-color: var(--coral-light);
+    color: var(--coral);
+  }
+
+  .fab:hover {
+    transform: scale(1.08) translateY(-2px);
+    box-shadow: 0 6px 0 var(--coral-dark), 0 12px 32px rgba(255,107,91,0.50);
+  }
 }
 
 /* ══════════════════════════════════════════
