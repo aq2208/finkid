@@ -220,9 +220,14 @@ export default function Tasks() {
 
       {/* FAB */}
       {isParent && (
-        <button className="fab" onClick={() => setShowCreate(true)}>
+        <motion.button
+          className="fab"
+          onClick={() => setShowCreate(true)}
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.92 }}
+        >
           <PiPlusBold size={24} />
-        </button>
+        </motion.button>
       )}
 
       {/* Create Modal */}

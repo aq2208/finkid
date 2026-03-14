@@ -86,7 +86,13 @@ export default function ChildHome() {
 
         {!activeDream ? (
           <div className="empty-state animate-fadeInUp" style={{ padding: '20px', animationDelay: '0.15s' }}>
-            <span className="empty-emoji">🌈</span>
+            <motion.div
+              className="empty-emoji"
+              animate={{ y: [0, -8, 0] }}
+              transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
+            >
+              🌈
+            </motion.div>
             <p>No active dream! Pick one to save toward 👇</p>
             <motion.button className="btn btn-primary btn-sm" onClick={() => navigate('/dreams')}
               style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}
@@ -154,13 +160,16 @@ export default function ChildHome() {
                 background: 'rgba(255,255,255,0.25)',
                 borderRadius: 99, height: 10, marginBottom: 10, overflow: 'hidden',
               }}>
-                <div style={{
-                  height: '100%', borderRadius: 99,
-                  width: `${Math.min(progress, 100)}%`,
-                  background: '#fff',
-                  boxShadow: '0 0 8px rgba(255,255,255,0.6)',
-                  transition: 'width 0.5s ease',
-                }} />
+                <motion.div
+                  style={{
+                    height: '100%', borderRadius: 99,
+                    background: '#fff',
+                    boxShadow: '0 0 8px rgba(255,255,255,0.6)',
+                  }}
+                  initial={{ width: 0 }}
+                  animate={{ width: `${Math.min(progress, 100)}%` }}
+                  transition={{ type: 'spring', stiffness: 120, damping: 20, delay: 0.2 }}
+                />
               </div>
 
               {/* Bottom row */}

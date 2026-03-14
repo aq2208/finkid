@@ -255,7 +255,13 @@ export default function ParentHome() {
         {/* Empty state */}
         {pendingCount === 0 && (
           <div className="empty-state animate-fadeInUp" style={{ animationDelay: '0.15s' }}>
-            <span className="empty-emoji">🎉</span>
+            <motion.div
+              className="empty-emoji"
+              animate={{ y: [0, -8, 0] }}
+              transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
+            >
+              🎉
+            </motion.div>
             <p>All caught up! No pending reviews.</p>
           </div>
         )}

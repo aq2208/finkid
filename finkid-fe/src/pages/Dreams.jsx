@@ -202,10 +202,14 @@ export default function Dreams() {
                   {/* Progress bar */}
                   {dream.target_points != null && (
                     <div className="progress-bar" style={{ marginTop: 10, height: 6 }}>
-                      <div
+                      <motion.div
                         className={`progress-fill ${isFulfilled ? 'fulfilled' : ''}`}
-                        style={{ width: `${Math.min(progress, 100)}%` }}
-                      />
+                        initial={{ width: 0 }}
+                        animate={{ width: `${Math.min(progress, 100)}%` }}
+                        transition={{ type: 'spring', stiffness: 120, damping: 20, delay: 0.2 }}
+                      >
+                        <span className="progress-shine" />
+                      </motion.div>
                     </div>
                   )}
 
@@ -265,9 +269,14 @@ export default function Dreams() {
 
       {/* FAB */}
       {isChild && (
-        <button className="fab" onClick={() => setShowCreate(true)}>
+        <motion.button
+          className="fab"
+          onClick={() => setShowCreate(true)}
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.92 }}
+        >
           <PiPlusBold size={24} />
-        </button>
+        </motion.button>
       )}
 
       {/* Create Modal */}
