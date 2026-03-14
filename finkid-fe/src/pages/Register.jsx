@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import toast from 'react-hot-toast'
+import { motion } from 'framer-motion'
 
 export default function Register() {
   const { register } = useAuth()
@@ -39,7 +40,12 @@ export default function Register() {
       </div>
 
       {/* Bottom sheet */}
-      <div className="auth-sheet">
+      <motion.div
+        className="auth-sheet"
+        initial={{ y: 80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ type: 'spring', stiffness: 400, damping: 40 }}
+      >
         <div className="auth-sheet-handle" />
         <h2 className="auth-sheet-title">Create Account 🎉</h2>
 
@@ -52,6 +58,8 @@ export default function Register() {
               placeholder="What should we call you?"
               value={form.displayName}
               onChange={handleChange}
+              autoCorrect="off"
+              autoCapitalize="words"
             />
           </div>
 
@@ -63,6 +71,8 @@ export default function Register() {
               placeholder="Choose a cool username"
               value={form.username}
               onChange={handleChange}
+              autoCorrect="off"
+              autoCapitalize="none"
             />
           </div>
 
@@ -76,6 +86,9 @@ export default function Register() {
               value={form.email}
               onChange={handleChange}
               autoComplete="email"
+              inputMode="email"
+              autoCorrect="off"
+              autoCapitalize="none"
             />
           </div>
 
@@ -92,20 +105,21 @@ export default function Register() {
             />
           </div>
 
-          <button
+          <motion.button
             className="btn btn-primary btn-full btn-lg"
             type="submit"
             disabled={loading}
             style={{ marginTop: 4 }}
+            whileTap={{ scale: 0.94 }}
           >
             {loading ? '⏳ Creating...' : '✨ Create Account'}
-          </button>
+          </motion.button>
         </form>
 
         <div className="auth-footer" style={{ marginTop: 20 }}>
           Already have an account? <Link to="/login">Login</Link>
         </div>
-      </div>
+      </motion.div>
     </div>
   )
 }

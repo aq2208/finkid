@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import toast from 'react-hot-toast'
+import { motion } from 'framer-motion'
 
 export default function ChooseRole() {
   const { setRole, logout } = useAuth()
@@ -32,32 +33,35 @@ export default function ChooseRole() {
         <div className="auth-sheet-handle" />
 
         <div className="role-grid">
-          <div
+          <motion.div
             className={`role-card ${selected === 'child' ? 'selected' : ''}`}
             onClick={() => setSelected('child')}
+            whileTap={{ scale: 0.97 }}
           >
             <span className="role-emoji">🧒</span>
             <div className="role-name">I'm a Kid</div>
             <div className="role-desc">Earn points &amp; achieve my dreams!</div>
-          </div>
+          </motion.div>
 
-          <div
+          <motion.div
             className={`role-card ${selected === 'parent' ? 'selected' : ''}`}
             onClick={() => setSelected('parent')}
+            whileTap={{ scale: 0.97 }}
           >
             <span className="role-emoji">👨‍👩‍👧</span>
             <div className="role-name">I'm a Parent</div>
             <div className="role-desc">Help my kids learn about money</div>
-          </div>
+          </motion.div>
         </div>
 
-        <button
+        <motion.button
           className="btn btn-primary btn-full btn-lg"
           onClick={handleContinue}
           disabled={!selected || loading}
+          whileTap={{ scale: 0.94 }}
         >
           {loading ? '⏳...' : '✨ Continue'}
-        </button>
+        </motion.button>
 
         <div className="auth-footer" style={{ marginTop: 16 }}>
           <a href="#" onClick={(e) => { e.preventDefault(); logout() }}>← Back to Login</a>

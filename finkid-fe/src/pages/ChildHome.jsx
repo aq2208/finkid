@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { api } from '../lib/api'
+import { motion } from 'framer-motion'
 import {
   PiStarFill,
   PiSparkle,
@@ -62,7 +63,6 @@ export default function ChildHome() {
       {/* Hero */}
       <div className="page-hero" style={{
         background: 'linear-gradient(135deg, #FF9A6C 0%, #FF6B5B 40%, #9C88FF 100%)',
-        paddingBottom: 48,
       }}>
         <div className="greeting animate-fadeInUp">
           Hi, {user?.display_name}! 🌟
@@ -77,7 +77,7 @@ export default function ChildHome() {
         </div>
       </div>
 
-      <div className="page-content" style={{ paddingTop: 32 }}>
+      <div className="page-content">
 
         {/* Dreams Section */}
         <div className="section-title animate-fadeInUp" style={{ animationDelay: '0.1s' }}>
@@ -86,12 +86,19 @@ export default function ChildHome() {
 
         {!activeDream ? (
           <div className="empty-state animate-fadeInUp" style={{ padding: '20px', animationDelay: '0.15s' }}>
-            <span className="empty-emoji">🌈</span>
+            <motion.div
+              className="empty-emoji"
+              animate={{ y: [0, -8, 0] }}
+              transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
+            >
+              🌈
+            </motion.div>
             <p>No active dream! Pick one to save toward 👇</p>
-            <button className="btn btn-primary btn-sm" onClick={() => navigate('/dreams')}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+            <motion.button className="btn btn-primary btn-sm" onClick={() => navigate('/dreams')}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}
+              whileTap={{ scale: 0.94 }}>
               <PiPlusBold size={13} /> Go to Dreams
-            </button>
+            </motion.button>
           </div>
         ) : (() => {
           const progress = activeDream.target_points
@@ -153,13 +160,16 @@ export default function ChildHome() {
                 background: 'rgba(255,255,255,0.25)',
                 borderRadius: 99, height: 10, marginBottom: 10, overflow: 'hidden',
               }}>
-                <div style={{
-                  height: '100%', borderRadius: 99,
-                  width: `${Math.min(progress, 100)}%`,
-                  background: '#fff',
-                  boxShadow: '0 0 8px rgba(255,255,255,0.6)',
-                  transition: 'width 0.5s ease',
-                }} />
+                <motion.div
+                  style={{
+                    height: '100%', borderRadius: 99,
+                    background: '#fff',
+                    boxShadow: '0 0 8px rgba(255,255,255,0.6)',
+                  }}
+                  initial={{ width: 0 }}
+                  animate={{ width: `${Math.min(progress, 100)}%` }}
+                  transition={{ type: 'spring', stiffness: 120, damping: 20, delay: 0.2 }}
+                />
               </div>
 
               {/* Bottom row */}
@@ -192,7 +202,7 @@ export default function ChildHome() {
             </div>
           ) : (
             myTasks.map(task => (
-              <div key={task.id} className="task-card">
+              <motion.div key={task.id} className="task-card" whileTap={{ scale: 0.97 }}>
                 {task.status === 'picked_up' ? (
                   <button
                     onClick={() => handleComplete(task.id)}
@@ -222,19 +232,20 @@ export default function ChildHome() {
                 <span className="badge badge-points" style={{ display: 'inline-flex', alignItems: 'center', gap: 3, flexShrink: 0 }}>
                   +{task.points} <PiStarFill size={11} />
                 </span>
-              </div>
+              </motion.div>
             ))
           )}
         </div>
 
         {myTasks.length > 0 && (
-          <button
+          <motion.button
             className="btn btn-secondary btn-full"
             style={{ marginTop: 12 }}
             onClick={() => navigate('/tasks')}
+            whileTap={{ scale: 0.94 }}
           >
             Show more
-          </button>
+          </motion.button>
         )}
 
       </div>

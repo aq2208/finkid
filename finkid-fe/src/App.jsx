@@ -1,4 +1,6 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { useRef } from 'react'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { AnimatePresence } from 'framer-motion'
 import { Toaster } from 'react-hot-toast'
 import { useAuth } from './context/AuthContext'
 
@@ -13,6 +15,16 @@ import Dreams from './pages/Dreams'
 import Tasks from './pages/Tasks'
 import Profile from './pages/Profile'
 import BottomNav from './components/BottomNav'
+import PageTransition from './components/PageTransition'
+
+const ROUTE_ORDER = ['/', '/dreams', '/tasks', '/profile']
+
+function getTabDirection(from, to) {
+  const fromIdx = ROUTE_ORDER.indexOf(from)
+  const toIdx = ROUTE_ORDER.indexOf(to)
+  if (fromIdx === -1 || toIdx === -1 || fromIdx === toIdx) return 0
+  return toIdx > fromIdx ? 1 : -1
+}
 
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth()
@@ -29,6 +41,16 @@ function ProtectedRoute({ children }) {
 
 function AppRoutes() {
   const { user, hasRole, hasFamily, isParent } = useAuth()
+  const location = useLocation()
+  const prevPathRef = useRef(location.pathname)
+  const directionRef = useRef(0)
+
+  const newDir = getTabDirection(prevPathRef.current, location.pathname)
+  if (prevPathRef.current !== location.pathname) {
+    directionRef.current = newDir
+    prevPathRef.current = location.pathname
+  }
+  const direction = directionRef.current
 
   // If logged in but no role, force role selection
   if (user && !hasRole) return (
@@ -46,25 +68,29 @@ function AppRoutes() {
 
   return (
     <>
-      <Routes>
-        <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
-        <Route path="/register" element={user ? <Navigate to="/" /> : <Register />} />
-        <Route path="/" element={
-          <ProtectedRoute>
-            {isParent ? <ParentHome /> : <ChildHome />}
-          </ProtectedRoute>
-        } />
-        <Route path="/dreams" element={
-          <ProtectedRoute><Dreams /></ProtectedRoute>
-        } />
-        <Route path="/tasks" element={
-          <ProtectedRoute><Tasks /></ProtectedRoute>
-        } />
-        <Route path="/profile" element={
-          <ProtectedRoute><Profile /></ProtectedRoute>
-        } />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+      <AnimatePresence mode="wait" custom={direction}>
+        <PageTransition key={location.pathname} direction={direction}>
+          <Routes location={location}>
+            <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
+            <Route path="/register" element={user ? <Navigate to="/" /> : <Register />} />
+            <Route path="/" element={
+              <ProtectedRoute>
+                {isParent ? <ParentHome /> : <ChildHome />}
+              </ProtectedRoute>
+            } />
+            <Route path="/dreams" element={
+              <ProtectedRoute><Dreams /></ProtectedRoute>
+            } />
+            <Route path="/tasks" element={
+              <ProtectedRoute><Tasks /></ProtectedRoute>
+            } />
+            <Route path="/profile" element={
+              <ProtectedRoute><Profile /></ProtectedRoute>
+            } />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </PageTransition>
+      </AnimatePresence>
       {user && hasRole && hasFamily && <BottomNav />}
     </>
   )

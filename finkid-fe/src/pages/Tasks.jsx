@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { api } from '../lib/api'
 import toast from 'react-hot-toast'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
   PiClipboardTextFill,
   PiLightningFill,
@@ -74,14 +75,14 @@ export default function Tasks() {
   return (
     <div className="page">
       {/* Hero */}
-      <div className="page-hero hero-coral" style={{ paddingBottom: 48 }}>
+      <div className="page-hero hero-coral">
         <div className="greeting animate-fadeInUp">Task Pool</div>
         <div className="greeting-sub">
           {isParent ? 'Create tasks & reward your kids' : 'Pick up tasks to earn points!'}
         </div>
       </div>
 
-      <div className="page-content" style={{ paddingTop: 24 }}>
+      <div className="page-content">
 
         {/* Filters */}
         <div className="tabs animate-fadeInUp" style={{ animationDelay: '0.05s' }}>
@@ -114,7 +115,7 @@ export default function Tasks() {
               const meta = STATUS_META[task.status] || STATUS_META.available
               const { Icon } = meta
               return (
-                <div key={task.id} className="task-card">
+                <motion.div key={task.id} className="task-card" whileTap={{ scale: 0.97 }}>
                   {/* Left: checkbox for child's active tasks, status icon otherwise */}
                   {isChild && task.status === 'picked_up' ? (
                     <button
@@ -162,51 +163,55 @@ export default function Tasks() {
                     </span>
 
                     {isChild && task.status === 'available' && (
-                      <button
+                      <motion.button
                         className="btn btn-secondary btn-sm"
                         onClick={() => handlePickup(task.id)}
                         disabled={actionLoading === task.id}
+                        whileTap={{ scale: 0.94 }}
                       >
                         <PiHandFill size={14} /> Pick Up
-                      </button>
+                      </motion.button>
                     )}
 
                     {isParent && task.status === 'pending_verification' && (
                       <div style={{ display: 'flex', gap: 4 }}>
-                        <button
+                        <motion.button
                           aria-label="Approve task"
                           className="btn btn-secondary btn-sm"
                           style={{ padding: '8px 10px', minHeight: 'unset' }}
                           onClick={() => handleVerify(task.id, true)}
                           disabled={actionLoading === task.id}
+                          whileTap={{ scale: 0.94 }}
                         >
                           <PiCheckBold size={16} />
-                        </button>
-                        <button
+                        </motion.button>
+                        <motion.button
                           aria-label="Reject task"
                           className="btn btn-danger btn-sm"
                           style={{ padding: '8px 10px', minHeight: 'unset' }}
                           onClick={() => handleVerify(task.id, false)}
                           disabled={actionLoading === task.id}
+                          whileTap={{ scale: 0.94 }}
                         >
                           <PiXBold size={16} />
-                        </button>
+                        </motion.button>
                       </div>
                     )}
 
                     {isParent && task.status === 'available' && (
-                      <button
+                      <motion.button
                         aria-label="Delete task"
                         className="btn btn-ghost btn-sm"
                         onClick={() => handleDelete(task.id)}
                         disabled={actionLoading === task.id}
                         style={{ color: 'var(--coral)', padding: '8px 10px' }}
+                        whileTap={{ scale: 0.94 }}
                       >
                         <PiTrashSimpleFill size={16} />
-                      </button>
+                      </motion.button>
                     )}
                   </div>
-                </div>
+                </motion.div>
               )
             })
           )}
@@ -215,40 +220,61 @@ export default function Tasks() {
 
       {/* FAB */}
       {isParent && (
-        <button className="fab" onClick={() => setShowCreate(true)}>
+        <motion.button
+          className="fab"
+          onClick={() => setShowCreate(true)}
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.92 }}
+        >
           <PiPlusBold size={24} />
-        </button>
+        </motion.button>
       )}
 
       {/* Create Modal */}
-      {showCreate && (
-        <div className="modal-overlay" onClick={() => setShowCreate(false)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <div className="modal-handle" />
-            <h2 className="modal-title">New Task</h2>
+      <AnimatePresence>
+        {showCreate && (
+          <motion.div
+            className="modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => setShowCreate(false)}
+          >
+            <motion.div
+              className="modal-content"
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', stiffness: 400, damping: 40 }}
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="modal-handle" />
+              <h2 className="modal-title">New Task</h2>
 
-            <div className="input-group">
-              <label className="input-label">Task Name</label>
-              <input className="input" placeholder="e.g., Do the dishes" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} />
-            </div>
-            <div className="input-group">
-              <label className="input-label">Description (optional)</label>
-              <textarea className="input" placeholder="What needs to be done?" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} />
-            </div>
-            <div className="input-group">
-              <label className="input-label">Points Reward</label>
-              <input className="input" type="number" placeholder="e.g., 15" value={form.points} onChange={e => setForm({ ...form, points: e.target.value })} min="1" />
-            </div>
+              <div className="input-group">
+                <label className="input-label">Task Name</label>
+                <input className="input" placeholder="e.g., Do the dishes" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} autoCorrect="off" autoCapitalize="sentences" />
+              </div>
+              <div className="input-group">
+                <label className="input-label">Description (optional)</label>
+                <textarea className="input" placeholder="What needs to be done?" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} autoCorrect="off" autoCapitalize="sentences" />
+              </div>
+              <div className="input-group">
+                <label className="input-label">Points Reward</label>
+                <input className="input" type="number" placeholder="e.g., 15" value={form.points} onChange={e => setForm({ ...form, points: e.target.value })} min="1" inputMode="numeric" autoComplete="off" />
+              </div>
 
-            <div style={{ display: 'flex', gap: 10 }}>
-              <button className="btn btn-ghost btn-full" onClick={() => setShowCreate(false)}>Cancel</button>
-              <button className="btn btn-primary btn-full" onClick={handleCreate} disabled={creating}>
-                {creating ? 'Creating…' : <><PiCheckBold size={16} /> Create</>}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+              <div style={{ display: 'flex', gap: 10 }}>
+                <motion.button className="btn btn-ghost btn-full" onClick={() => setShowCreate(false)} whileTap={{ scale: 0.94 }}>Cancel</motion.button>
+                <motion.button className="btn btn-primary btn-full" onClick={handleCreate} disabled={creating} whileTap={{ scale: 0.94 }}>
+                  {creating ? 'Creating…' : <><PiCheckBold size={16} /> Create</>}
+                </motion.button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

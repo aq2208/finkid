@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { api } from '../lib/api'
 import toast from 'react-hot-toast'
+import { motion } from 'framer-motion'
 import {
   PiCheckBold,
   PiXBold,
@@ -89,7 +90,7 @@ export default function ParentHome() {
   return (
     <div className="page">
       {/* Hero */}
-      <div className="page-hero hero-mint" style={{ paddingBottom: 48 }}>
+      <div className="page-hero hero-mint">
         <div className="greeting animate-fadeInUp">
           Hi, {user?.display_name}! 👋
         </div>
@@ -98,22 +99,23 @@ export default function ParentHome() {
         </div>
         {/* Family code chip */}
         {family && (
-          <button
+          <motion.button
             className="points-chip animate-bounceIn"
             style={{ animationDelay: '0.1s', cursor: 'pointer', border: 'none', fontFamily: 'var(--font)' }}
             onClick={() => {
               navigator.clipboard.writeText(family.join_code)
               toast.success('Family code copied! 📋')
             }}
+            whileTap={{ scale: 0.94 }}
           >
             <span>🏠</span>
             <span style={{ fontFamily: 'var(--font-display)', letterSpacing: 3 }}>{family.join_code}</span>
             <span style={{ fontSize: '0.85rem', opacity: 0.8 }}>tap to copy</span>
-          </button>
+          </motion.button>
         )}
       </div>
 
-      <div className="page-content" style={{ paddingTop: 32 }}>
+      <div className="page-content">
 
         {/* Stats */}
         <div className="stats-grid animate-fadeInUp" style={{ animationDelay: '0.05s' }}>
@@ -167,7 +169,7 @@ export default function ParentHome() {
               <span className="badge badge-status-pending_verification">{pendingTasks.length}</span>
             </div>
             {pendingTasks.map(task => (
-              <div key={task.id} className="approval-card">
+              <motion.div key={task.id} className="approval-card" whileTap={{ scale: 0.97 }}>
                 <div className="approval-title">{task.title}</div>
                 <div className="approval-meta">
                   Done by: <strong>{task.child_name || 'Child'}</strong>
@@ -177,22 +179,24 @@ export default function ParentHome() {
                   </span>
                 </div>
                 <div className="approval-actions">
-                  <button
+                  <motion.button
                     className="btn btn-secondary btn-sm"
                     onClick={() => handleVerifyTask(task.id, true)}
                     disabled={actionLoading === task.id}
+                    whileTap={{ scale: 0.94 }}
                   >
                     <PiCheckBold size={14} /> Approve
-                  </button>
-                  <button
+                  </motion.button>
+                  <motion.button
                     className="btn btn-danger btn-sm"
                     onClick={() => handleVerifyTask(task.id, false)}
                     disabled={actionLoading === task.id}
+                    whileTap={{ scale: 0.94 }}
                   >
                     <PiXBold size={14} /> Reject
-                  </button>
+                  </motion.button>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         )}
@@ -205,7 +209,7 @@ export default function ParentHome() {
               <span className="badge badge-status-pending_approval">{pendingDreams.length}</span>
             </div>
             {pendingDreams.map(dream => (
-              <div key={dream.id} className="approval-card" style={{ borderLeftColor: 'var(--grape)' }}>
+              <motion.div key={dream.id} className="approval-card" style={{ borderLeftColor: 'var(--grape)' }} whileTap={{ scale: 0.97 }}>
                 <div className="approval-title">{dream.title}</div>
                 <div className="approval-meta">
                   By: <strong>{dream.child_name || 'Child'}</strong>
@@ -222,25 +226,28 @@ export default function ParentHome() {
                     value={pointsInput[dream.id] || ''}
                     onChange={(e) => setPointsInput({ ...pointsInput, [dream.id]: e.target.value })}
                     min="1"
+                    inputMode="numeric"
                   />
                 </div>
                 <div className="approval-actions">
-                  <button
+                  <motion.button
                     className="btn btn-secondary btn-sm"
                     onClick={() => handleApproveDream(dream.id)}
                     disabled={actionLoading === dream.id}
+                    whileTap={{ scale: 0.94 }}
                   >
                     <PiCheckBold size={14} /> Approve
-                  </button>
-                  <button
+                  </motion.button>
+                  <motion.button
                     className="btn btn-danger btn-sm"
                     onClick={() => handleRejectDream(dream.id)}
                     disabled={actionLoading === dream.id}
+                    whileTap={{ scale: 0.94 }}
                   >
                     <PiXBold size={14} /> Reject
-                  </button>
+                  </motion.button>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         )}
@@ -248,21 +255,29 @@ export default function ParentHome() {
         {/* Empty state */}
         {pendingCount === 0 && (
           <div className="empty-state animate-fadeInUp" style={{ animationDelay: '0.15s' }}>
-            <span className="empty-emoji">🎉</span>
+            <motion.div
+              className="empty-emoji"
+              animate={{ y: [0, -8, 0] }}
+              transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
+            >
+              🎉
+            </motion.div>
             <p>All caught up! No pending reviews.</p>
           </div>
         )}
 
         {/* Quick Actions */}
         <div style={{ display: 'flex', gap: 10, marginTop: 8 }} className="animate-fadeInUp">
-          <button className="btn btn-primary btn-full" onClick={() => navigate('/tasks')}
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+          <motion.button className="btn btn-primary btn-full" onClick={() => navigate('/tasks')}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+            whileTap={{ scale: 0.94 }}>
             <PiClipboardTextFill size={16} /> Manage Tasks
-          </button>
-          <button className="btn btn-secondary btn-full" onClick={() => navigate('/dreams')}
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+          </motion.button>
+          <motion.button className="btn btn-secondary btn-full" onClick={() => navigate('/dreams')}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+            whileTap={{ scale: 0.94 }}>
             <PiSparkle size={16} /> View Dreams
-          </button>
+          </motion.button>
         </div>
 
       </div>

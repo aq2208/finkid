@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext'
 import { api } from '../lib/api'
 import { supabase } from '../lib/supabase'
 import toast from 'react-hot-toast'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
   PiStarFill,
   PiCheckBold,
@@ -92,7 +93,7 @@ export default function Dreams() {
   return (
     <div className="page">
       {/* Hero */}
-      <div className="page-hero hero-grape" style={{ paddingBottom: 48 }}>
+      <div className="page-hero hero-grape">
         <div className="greeting animate-fadeInUp">
           {isParent ? "Kids' Dreams" : 'My Dreams'}
         </div>
@@ -101,7 +102,7 @@ export default function Dreams() {
         </div>
       </div>
 
-      <div className="page-content" style={{ paddingTop: 24 }}>
+      <div className="page-content">
 
         {/* Filters */}
         <div className="tabs animate-fadeInUp" style={{ animationDelay: '0.05s' }}>
@@ -141,7 +142,7 @@ export default function Dreams() {
                 : 'linear-gradient(135deg, #C3B1FF, #9C88FF)'
 
               return (
-                <div key={dream.id} className={`dream-card status-${dream.status}`} style={{ padding: '14px 16px' }}>
+                <motion.div key={dream.id} className={`dream-card status-${dream.status}`} style={{ padding: '14px 16px' }} whileTap={{ scale: 0.97 }}>
                   {/* Main row */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                     {dream.image_url ? (
@@ -201,23 +202,28 @@ export default function Dreams() {
                   {/* Progress bar */}
                   {dream.target_points != null && (
                     <div className="progress-bar" style={{ marginTop: 10, height: 6 }}>
-                      <div
+                      <motion.div
                         className={`progress-fill ${isFulfilled ? 'fulfilled' : ''}`}
-                        style={{ width: `${Math.min(progress, 100)}%` }}
-                      />
+                        initial={{ width: 0 }}
+                        animate={{ width: `${Math.min(progress, 100)}%` }}
+                        transition={{ type: 'spring', stiffness: 120, damping: 20, delay: 0.2 }}
+                      >
+                        <span className="progress-shine" />
+                      </motion.div>
                     </div>
                   )}
 
                   {/* Child: Activate */}
                   {isChild && ['approved', 'in_progress'].includes(dream.status) && !isActive && (
-                    <button
+                    <motion.button
                       className="btn btn-warning btn-sm"
                       style={{ marginTop: 10, width: '100%' }}
                       onClick={() => handleActivate(dream.id)}
                       disabled={actionLoading === dream.id}
+                      whileTap={{ scale: 0.94 }}
                     >
                       <PiTargetFill size={14} /> Set as Active Dream
-                    </button>
+                    </motion.button>
                   )}
 
                   {/* Parent: Approve / Reject */}
@@ -231,27 +237,30 @@ export default function Dreams() {
                         onChange={e => setPointsInput({ ...pointsInput, [dream.id]: e.target.value })}
                         min="1"
                         style={{ flex: 1 }}
+                        inputMode="numeric"
                       />
-                      <button
+                      <motion.button
                         className="btn btn-secondary btn-sm"
                         onClick={() => handleApprove(dream.id)}
                         disabled={actionLoading === dream.id}
                         style={{ flexShrink: 0 }}
+                        whileTap={{ scale: 0.94 }}
                       >
                         <PiCheckBold size={14} /> Approve
-                      </button>
-                      <button
+                      </motion.button>
+                      <motion.button
                         aria-label="Reject dream"
                         className="btn btn-danger btn-sm"
                         onClick={() => handleReject(dream.id)}
                         disabled={actionLoading === dream.id}
                         style={{ flexShrink: 0, padding: '8px 10px' }}
+                        whileTap={{ scale: 0.94 }}
                       >
                         <PiXBold size={14} />
-                      </button>
+                      </motion.button>
                     </div>
                   )}
-                </div>
+                </motion.div>
               )
             })
           )}
@@ -260,67 +269,88 @@ export default function Dreams() {
 
       {/* FAB */}
       {isChild && (
-        <button className="fab" onClick={() => setShowCreate(true)}>
+        <motion.button
+          className="fab"
+          onClick={() => setShowCreate(true)}
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.92 }}
+        >
           <PiPlusBold size={24} />
-        </button>
+        </motion.button>
       )}
 
       {/* Create Modal */}
-      {showCreate && (
-        <div className="modal-overlay" onClick={() => { setShowCreate(false); setImageFile(null); setImagePreview(null) }}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <div className="modal-handle" />
-            <h2 className="modal-title">New Dream</h2>
+      <AnimatePresence>
+        {showCreate && (
+          <motion.div
+            className="modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => { setShowCreate(false); setImageFile(null); setImagePreview(null) }}
+          >
+            <motion.div
+              className="modal-content"
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', stiffness: 400, damping: 40 }}
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="modal-handle" />
+              <h2 className="modal-title">New Dream</h2>
 
-            <div className="input-group">
-              <label className="input-label">What do you dream of?</label>
-              <input className="input" placeholder="e.g., New Bicycle" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} />
-            </div>
-            <div className="input-group">
-              <label className="input-label">Tell us more (optional)</label>
-              <textarea className="input" placeholder="Why do you want this?" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} />
-            </div>
-
-            {imagePreview ? (
-              <div style={{ position: 'relative', marginBottom: 12 }}>
-                <img src={imagePreview} style={{ width: '100%', height: 120, objectFit: 'cover', borderRadius: 12 }} />
-                <button
-                  onClick={() => { setImageFile(null); setImagePreview(null) }}
-                  style={{
-                    position: 'absolute', top: 6, right: 6,
-                    background: 'rgba(0,0,0,0.5)', border: 'none', borderRadius: '50%',
-                    width: 24, height: 24, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    cursor: 'pointer', color: '#fff', padding: 0,
-                  }}
-                >
-                  <PiXBold size={12} />
-                </button>
+              <div className="input-group">
+                <label className="input-label">What do you dream of?</label>
+                <input className="input" placeholder="e.g., New Bicycle" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} autoCorrect="off" autoCapitalize="sentences" />
               </div>
-            ) : (
-              <div className="btn btn-secondary btn-full" style={{ marginBottom: 12, position: 'relative', overflow: 'hidden' }}>
-                <PiImageFill size={16} /> Add a Photo (optional)
-                <input
-                  type="file" accept="image/*"
-                  style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer', width: '100%', height: '100%' }}
-                  onChange={e => {
-                    const f = e.target.files[0]
-                    if (!f) return
-                    setImageFile(f)
-                    setImagePreview(URL.createObjectURL(f))
-                  }}
-                />
+              <div className="input-group">
+                <label className="input-label">Tell us more (optional)</label>
+                <textarea className="input" placeholder="Why do you want this?" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} autoCorrect="off" autoCapitalize="sentences" />
               </div>
-            )}
 
-            <div style={{ display: 'flex', gap: 10 }}>
-              <button className="btn btn-ghost btn-full" onClick={() => { setShowCreate(false); setImageFile(null); setImagePreview(null) }}>Cancel</button>
-              <button className="btn btn-primary btn-full" onClick={handleCreate} disabled={creating || uploading}>
-                {uploading ? 'Uploading…' : creating ? 'Creating…' : <><PiSparkle size={16} /> Create Dream</>}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+              {imagePreview ? (
+                <div style={{ position: 'relative', marginBottom: 12 }}>
+                  <img src={imagePreview} style={{ width: '100%', height: 120, objectFit: 'cover', borderRadius: 12 }} />
+                  <button
+                    onClick={() => { setImageFile(null); setImagePreview(null) }}
+                    style={{
+                      position: 'absolute', top: 6, right: 6,
+                      background: 'rgba(0,0,0,0.5)', border: 'none', borderRadius: '50%',
+                      width: 24, height: 24, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      cursor: 'pointer', color: '#fff', padding: 0,
+                    }}
+                  >
+                    <PiXBold size={12} />
+                  </button>
+                </div>
+              ) : (
+                <div className="btn btn-secondary btn-full" style={{ marginBottom: 12, position: 'relative', overflow: 'hidden' }}>
+                  <PiImageFill size={16} /> Add a Photo (optional)
+                  <input
+                    type="file" accept="image/*"
+                    style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer', width: '100%', height: '100%' }}
+                    onChange={e => {
+                      const f = e.target.files[0]
+                      if (!f) return
+                      setImageFile(f)
+                      setImagePreview(URL.createObjectURL(f))
+                    }}
+                  />
+                </div>
+              )}
+
+              <div style={{ display: 'flex', gap: 10 }}>
+                <motion.button className="btn btn-ghost btn-full" onClick={() => { setShowCreate(false); setImageFile(null); setImagePreview(null) }} whileTap={{ scale: 0.94 }}>Cancel</motion.button>
+                <motion.button className="btn btn-primary btn-full" onClick={handleCreate} disabled={creating || uploading} whileTap={{ scale: 0.94 }}>
+                  {uploading ? 'Uploading…' : creating ? 'Creating…' : <><PiSparkle size={16} /> Create Dream</>}
+                </motion.button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
