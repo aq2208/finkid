@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { api } from '../lib/api'
 import toast from 'react-hot-toast'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
   PiClipboardTextFill,
   PiLightningFill,
@@ -226,34 +226,50 @@ export default function Tasks() {
       )}
 
       {/* Create Modal */}
-      {showCreate && (
-        <div className="modal-overlay" onClick={() => setShowCreate(false)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <div className="modal-handle" />
-            <h2 className="modal-title">New Task</h2>
+      <AnimatePresence>
+        {showCreate && (
+          <motion.div
+            className="modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => setShowCreate(false)}
+          >
+            <motion.div
+              className="modal-content"
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', stiffness: 400, damping: 40 }}
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="modal-handle" />
+              <h2 className="modal-title">New Task</h2>
 
-            <div className="input-group">
-              <label className="input-label">Task Name</label>
-              <input className="input" placeholder="e.g., Do the dishes" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} autoCorrect="off" autoCapitalize="sentences" />
-            </div>
-            <div className="input-group">
-              <label className="input-label">Description (optional)</label>
-              <textarea className="input" placeholder="What needs to be done?" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} autoCorrect="off" autoCapitalize="sentences" />
-            </div>
-            <div className="input-group">
-              <label className="input-label">Points Reward</label>
-              <input className="input" type="number" placeholder="e.g., 15" value={form.points} onChange={e => setForm({ ...form, points: e.target.value })} min="1" inputMode="numeric" autoComplete="off" />
-            </div>
+              <div className="input-group">
+                <label className="input-label">Task Name</label>
+                <input className="input" placeholder="e.g., Do the dishes" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} autoCorrect="off" autoCapitalize="sentences" />
+              </div>
+              <div className="input-group">
+                <label className="input-label">Description (optional)</label>
+                <textarea className="input" placeholder="What needs to be done?" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} autoCorrect="off" autoCapitalize="sentences" />
+              </div>
+              <div className="input-group">
+                <label className="input-label">Points Reward</label>
+                <input className="input" type="number" placeholder="e.g., 15" value={form.points} onChange={e => setForm({ ...form, points: e.target.value })} min="1" inputMode="numeric" autoComplete="off" />
+              </div>
 
-            <div style={{ display: 'flex', gap: 10 }}>
-              <motion.button className="btn btn-ghost btn-full" onClick={() => setShowCreate(false)} whileTap={{ scale: 0.94 }}>Cancel</motion.button>
-              <motion.button className="btn btn-primary btn-full" onClick={handleCreate} disabled={creating} whileTap={{ scale: 0.94 }}>
-                {creating ? 'Creating…' : <><PiCheckBold size={16} /> Create</>}
-              </motion.button>
-            </div>
-          </div>
-        </div>
-      )}
+              <div style={{ display: 'flex', gap: 10 }}>
+                <motion.button className="btn btn-ghost btn-full" onClick={() => setShowCreate(false)} whileTap={{ scale: 0.94 }}>Cancel</motion.button>
+                <motion.button className="btn btn-primary btn-full" onClick={handleCreate} disabled={creating} whileTap={{ scale: 0.94 }}>
+                  {creating ? 'Creating…' : <><PiCheckBold size={16} /> Create</>}
+                </motion.button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

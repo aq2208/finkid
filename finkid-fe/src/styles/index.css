@@ -699,13 +699,7 @@ textarea.input {
   position: relative;
   z-index: 2;
   box-shadow: 0 -8px 40px rgba(0,0,0,0.15);
-  animation: sheetSlideUp 0.5s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
   overflow-y: auto;
-}
-
-@keyframes sheetSlideUp {
-  from { transform: translateY(80px); opacity: 0; }
-  to   { transform: translateY(0);   opacity: 1; }
 }
 
 .auth-sheet-handle {
@@ -1097,7 +1091,6 @@ textarea.input {
   max-width: 480px;
   max-height: 88vh;
   overflow-y: auto;
-  animation: sheetSlideUp 0.35s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
 }
 
 .modal-handle {

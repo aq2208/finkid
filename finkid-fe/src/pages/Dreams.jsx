@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext'
 import { api } from '../lib/api'
 import { supabase } from '../lib/supabase'
 import toast from 'react-hot-toast'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
   PiStarFill,
   PiCheckBold,
@@ -271,61 +271,77 @@ export default function Dreams() {
       )}
 
       {/* Create Modal */}
-      {showCreate && (
-        <div className="modal-overlay" onClick={() => { setShowCreate(false); setImageFile(null); setImagePreview(null) }}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <div className="modal-handle" />
-            <h2 className="modal-title">New Dream</h2>
+      <AnimatePresence>
+        {showCreate && (
+          <motion.div
+            className="modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => { setShowCreate(false); setImageFile(null); setImagePreview(null) }}
+          >
+            <motion.div
+              className="modal-content"
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', stiffness: 400, damping: 40 }}
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="modal-handle" />
+              <h2 className="modal-title">New Dream</h2>
 
-            <div className="input-group">
-              <label className="input-label">What do you dream of?</label>
-              <input className="input" placeholder="e.g., New Bicycle" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} autoCorrect="off" autoCapitalize="sentences" />
-            </div>
-            <div className="input-group">
-              <label className="input-label">Tell us more (optional)</label>
-              <textarea className="input" placeholder="Why do you want this?" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} autoCorrect="off" autoCapitalize="sentences" />
-            </div>
-
-            {imagePreview ? (
-              <div style={{ position: 'relative', marginBottom: 12 }}>
-                <img src={imagePreview} style={{ width: '100%', height: 120, objectFit: 'cover', borderRadius: 12 }} />
-                <button
-                  onClick={() => { setImageFile(null); setImagePreview(null) }}
-                  style={{
-                    position: 'absolute', top: 6, right: 6,
-                    background: 'rgba(0,0,0,0.5)', border: 'none', borderRadius: '50%',
-                    width: 24, height: 24, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    cursor: 'pointer', color: '#fff', padding: 0,
-                  }}
-                >
-                  <PiXBold size={12} />
-                </button>
+              <div className="input-group">
+                <label className="input-label">What do you dream of?</label>
+                <input className="input" placeholder="e.g., New Bicycle" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} autoCorrect="off" autoCapitalize="sentences" />
               </div>
-            ) : (
-              <div className="btn btn-secondary btn-full" style={{ marginBottom: 12, position: 'relative', overflow: 'hidden' }}>
-                <PiImageFill size={16} /> Add a Photo (optional)
-                <input
-                  type="file" accept="image/*"
-                  style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer', width: '100%', height: '100%' }}
-                  onChange={e => {
-                    const f = e.target.files[0]
-                    if (!f) return
-                    setImageFile(f)
-                    setImagePreview(URL.createObjectURL(f))
-                  }}
-                />
+              <div className="input-group">
+                <label className="input-label">Tell us more (optional)</label>
+                <textarea className="input" placeholder="Why do you want this?" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} autoCorrect="off" autoCapitalize="sentences" />
               </div>
-            )}
 
-            <div style={{ display: 'flex', gap: 10 }}>
-              <motion.button className="btn btn-ghost btn-full" onClick={() => { setShowCreate(false); setImageFile(null); setImagePreview(null) }} whileTap={{ scale: 0.94 }}>Cancel</motion.button>
-              <motion.button className="btn btn-primary btn-full" onClick={handleCreate} disabled={creating || uploading} whileTap={{ scale: 0.94 }}>
-                {uploading ? 'Uploading…' : creating ? 'Creating…' : <><PiSparkle size={16} /> Create Dream</>}
-              </motion.button>
-            </div>
-          </div>
-        </div>
-      )}
+              {imagePreview ? (
+                <div style={{ position: 'relative', marginBottom: 12 }}>
+                  <img src={imagePreview} style={{ width: '100%', height: 120, objectFit: 'cover', borderRadius: 12 }} />
+                  <button
+                    onClick={() => { setImageFile(null); setImagePreview(null) }}
+                    style={{
+                      position: 'absolute', top: 6, right: 6,
+                      background: 'rgba(0,0,0,0.5)', border: 'none', borderRadius: '50%',
+                      width: 24, height: 24, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      cursor: 'pointer', color: '#fff', padding: 0,
+                    }}
+                  >
+                    <PiXBold size={12} />
+                  </button>
+                </div>
+              ) : (
+                <div className="btn btn-secondary btn-full" style={{ marginBottom: 12, position: 'relative', overflow: 'hidden' }}>
+                  <PiImageFill size={16} /> Add a Photo (optional)
+                  <input
+                    type="file" accept="image/*"
+                    style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer', width: '100%', height: '100%' }}
+                    onChange={e => {
+                      const f = e.target.files[0]
+                      if (!f) return
+                      setImageFile(f)
+                      setImagePreview(URL.createObjectURL(f))
+                    }}
+                  />
+                </div>
+              )}
+
+              <div style={{ display: 'flex', gap: 10 }}>
+                <motion.button className="btn btn-ghost btn-full" onClick={() => { setShowCreate(false); setImageFile(null); setImagePreview(null) }} whileTap={{ scale: 0.94 }}>Cancel</motion.button>
+                <motion.button className="btn btn-primary btn-full" onClick={handleCreate} disabled={creating || uploading} whileTap={{ scale: 0.94 }}>
+                  {uploading ? 'Uploading…' : creating ? 'Creating…' : <><PiSparkle size={16} /> Create Dream</>}
+                </motion.button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

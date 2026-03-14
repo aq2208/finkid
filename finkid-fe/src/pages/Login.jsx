@@ -34,7 +34,12 @@ export default function Login() {
       </div>
 
       {/* Bottom sheet */}
-      <div className="auth-sheet">
+      <motion.div
+        className="auth-sheet"
+        initial={{ y: 80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ type: 'spring', stiffness: 400, damping: 40 }}
+      >
         <div className="auth-sheet-handle" />
         <h2 className="auth-sheet-title">Welcome back! 👋</h2>
 
@@ -80,7 +85,7 @@ export default function Login() {
         <div className="auth-footer" style={{ marginTop: 20 }}>
           New here? <Link to="/register">Create Account</Link>
         </div>
-      </div>
+      </motion.div>
     </div>
   )
 }
