@@ -68,7 +68,7 @@ function AppRoutes() {
 
   return (
     <>
-      <AnimatePresence mode="popLayout" custom={direction}>
+      <AnimatePresence mode="wait" custom={direction}>
         <PageTransition key={location.pathname} direction={direction}>
           <Routes location={location}>
             <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
