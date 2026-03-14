@@ -241,6 +241,7 @@ export default function Dreams() {
                         <PiCheckBold size={14} /> Approve
                       </button>
                       <button
+                        aria-label="Reject dream"
                         className="btn btn-danger btn-sm"
                         onClick={() => handleReject(dream.id)}
                         disabled={actionLoading === dream.id}

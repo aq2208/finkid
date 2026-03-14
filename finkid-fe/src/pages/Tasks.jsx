@@ -118,6 +118,7 @@ export default function Tasks() {
                   {/* Left: checkbox for child's active tasks, status icon otherwise */}
                   {isChild && task.status === 'picked_up' ? (
                     <button
+                      aria-label="Mark done"
                       onClick={() => handleComplete(task.id)}
                       disabled={actionLoading === task.id}
                       style={{
@@ -173,6 +174,7 @@ export default function Tasks() {
                     {isParent && task.status === 'pending_verification' && (
                       <div style={{ display: 'flex', gap: 4 }}>
                         <button
+                          aria-label="Approve task"
                           className="btn btn-secondary btn-sm"
                           style={{ padding: '8px 10px', minHeight: 'unset' }}
                           onClick={() => handleVerify(task.id, true)}
@@ -181,6 +183,7 @@ export default function Tasks() {
                           <PiCheckBold size={16} />
                         </button>
                         <button
+                          aria-label="Reject task"
                           className="btn btn-danger btn-sm"
                           style={{ padding: '8px 10px', minHeight: 'unset' }}
                           onClick={() => handleVerify(task.id, false)}
@@ -193,6 +196,7 @@ export default function Tasks() {
 
                     {isParent && task.status === 'available' && (
                       <button
+                        aria-label="Delete task"
                         className="btn btn-ghost btn-sm"
                         onClick={() => handleDelete(task.id)}
                         disabled={actionLoading === task.id}

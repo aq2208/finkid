@@ -262,9 +262,9 @@ async function run() {
   // ════════════════════════════════════════════════════════════
   section('4 · Onboarding — Family Setup (Parent Creates)');
 
-  await hasText(page, 'Family Setup')
-    ? pass('"Family Setup" screen reached')
-    : fail('"Family Setup" screen not shown', page.url());
+  await hasText(page, 'Family Time')
+    ? pass('"Family Time" screen reached')
+    : fail('"Family Time" screen not shown', page.url());
 
   await has(page, 'button:has-text("Create a Family")') && await has(page, 'button:has-text("Join with Code")')
     ? pass('Two options shown: "Create a Family" and "Join with Code"')
@@ -313,9 +313,9 @@ async function run() {
   // ════════════════════════════════════════════════════════════
   section('5 · Parent Dashboard');
 
-  await hasText(page, 'Family Dashboard')
-    ? pass('"Family Dashboard" heading visible')
-    : fail('"Family Dashboard" heading missing');
+  await hasText(page, 'Your family is doing great')
+    ? pass('Parent home greeting visible')
+    : fail('Parent home greeting missing');
 
   await hasText(page, PARENT.display)
     ? pass(`Welcome message shows parent name: ${PARENT.display}`)
@@ -325,8 +325,8 @@ async function run() {
     ? pass(`Join code ${JOIN_CODE} displayed on dashboard`)
     : fail('Join code not visible on dashboard');
 
-  await hasText(page, 'Children') && await hasText(page, 'Tasks Done')
-    ? pass('Stats cards (Children / Tasks Done) visible')
+  await hasText(page, 'Kids') && await hasText(page, 'Tasks Done')
+    ? pass('Stats cards (Kids / Tasks Done) visible')
     : fail('Stats cards missing');
 
   await has(page, 'nav.bottom-nav')
@@ -353,7 +353,7 @@ async function run() {
     ? pass('"Task Pool" page title')
     : fail('"Task Pool" title missing');
 
-  await hasText(page, 'Create and manage tasks')
+  await hasText(page, 'Create tasks')
     ? pass('Parent subtitle shown')
     : fail('Parent subtitle missing');
 
@@ -366,10 +366,10 @@ async function run() {
   await page.click('.fab');
   await page.waitForSelector('text=New Task', { timeout: 5000 });
   pass('Create-task modal opens on FAB click');
-  await page.fill('input[placeholder*="Homework"]', 'Do the dishes');
+  await page.fill('input[placeholder*="dishes"]', 'Do the dishes');
   await page.fill('textarea', 'Wash all dishes and dry them').catch(() => {});
   await page.fill('input[type="number"]', '20');
-  await page.click('button:has-text("Create Task")');
+  await page.locator('.modal-content button:has-text("Create")').click();
   await page.waitForSelector('.modal-overlay', { state: 'hidden', timeout: 6000 }).catch(() => {});
   await waitData(page);
   await hasText(page, 'Do the dishes')
@@ -380,9 +380,9 @@ async function run() {
   info('Creating task "Vacuum living room" — 25 pts...');
   await page.click('.fab');
   await page.waitForSelector('text=New Task', { timeout: 5000 });
-  await page.fill('input[placeholder*="Homework"]', 'Vacuum living room');
+  await page.fill('input[placeholder*="dishes"]', 'Vacuum living room');
   await page.fill('input[type="number"]', '25');
-  await page.click('button:has-text("Create Task")');
+  await page.locator('.modal-content button:has-text("Create")').click();
   await page.waitForSelector('.modal-overlay', { state: 'hidden', timeout: 6000 }).catch(() => {});
   await waitData(page);
   await hasText(page, 'Vacuum living room')
@@ -393,16 +393,16 @@ async function run() {
   info('Creating task "Clean bathroom" — 30 pts (will be deleted)...');
   await page.click('.fab');
   await page.waitForSelector('text=New Task', { timeout: 5000 });
-  await page.fill('input[placeholder*="Homework"]', 'Clean bathroom');
+  await page.fill('input[placeholder*="dishes"]', 'Clean bathroom');
   await page.fill('input[type="number"]', '30');
-  await page.click('button:has-text("Create Task")');
+  await page.locator('.modal-content button:has-text("Create")').click();
   await page.waitForSelector('.modal-overlay', { state: 'hidden', timeout: 6000 }).catch(() => {});
   await waitData(page);
 
   // Delete task 3
   info('Deleting "Clean bathroom"...');
   const beforeCount = await page.locator('.task-card').count();
-  const deleteBtn = page.locator('button:has-text("🗑️")').first();
+  const deleteBtn = page.locator('button[aria-label="Delete task"]').first();
   if (await deleteBtn.count() > 0) {
     await deleteBtn.click();
     // Wait for count to drop — more reliable than a fixed timeout
@@ -428,7 +428,7 @@ async function run() {
     ? pass('Filter "available" shows the created tasks')
     : fail('Filter "available" shows wrong count');
 
-  await page.click('button:has-text("completed")').catch(() => {});
+  await page.click('button:has-text("Done")').catch(() => {});
   await page.waitForTimeout(500);
   pass('"completed" filter tab clickable (empty is valid at this stage)');
 
@@ -446,7 +446,7 @@ async function run() {
     ? pass('Dreams title "Kids\' Dreams" for parent')
     : fail('Parent dreams title wrong');
 
-  await hasText(page, 'Review and manage')
+  await hasText(page, 'Review & approve')
     ? pass('Parent dreams subtitle shown')
     : fail('Parent dreams subtitle missing');
 
@@ -516,9 +516,9 @@ async function run() {
   await noSpinner(page);
   pass('Child role "Kid" selected and confirmed');
 
-  await hasText(page, 'Family Setup')
-    ? pass('"Family Setup" screen shown to child')
-    : fail('Family Setup not shown to child', page.url());
+  await hasText(page, 'Family Time')
+    ? pass('"Family Time" screen shown to child')
+    : fail('Family Time not shown to child', page.url());
 
   // Child only sees "Join with Code"
   await has(page, 'button:has-text("Join with Code")')
@@ -532,7 +532,7 @@ async function run() {
   info(`Child clicking "Join with Code" and entering: ${JOIN_CODE}`);
   await page.click('button:has-text("Join with Code")');
   await page.waitForTimeout(500);
-  await page.fill('input[maxLength="6"]', JOIN_CODE || 'XXXXXX');
+  await page.fill('input[maxlength="6"]', JOIN_CODE || 'XXXXXX');
   await page.click('button:has-text("Join Family")');
   await page.waitForTimeout(3000);
   await noSpinner(page);
@@ -559,13 +559,14 @@ async function run() {
     ? pass('"My Dreams" section present')
     : fail('"My Dreams" section missing');
 
-  await hasText(page, 'Available Tasks')
-    ? pass('"Available Tasks" section present')
-    : fail('"Available Tasks" section missing');
+  await hasText(page, 'Tasks for You')
+    ? pass('"Tasks for You" section present')
+    : fail('"Tasks for You" section missing');
 
-  await hasText(page, 'Do the dishes') || await hasText(page, 'Vacuum living room')
-    ? pass('Parent-created tasks visible in Available Tasks preview')
-    : fail('Tasks not showing on child home preview');
+  // Child home shows in-progress tasks only (picked_up/pending); none picked up yet → empty state
+  await hasText(page, 'No tasks in progress') || await hasText(page, 'Head to Tasks')
+    ? pass('Tasks section shows empty state (no tasks picked up yet)')
+    : fail('"Tasks for You" section content missing');
 
   // No dreams yet → empty state
   await hasText(page, 'No dreams') || await hasText(page, 'Create one')
@@ -661,8 +662,8 @@ async function run() {
     : fail('"Pick Up" button not found');
 
   await page.locator('button:has-text("Pick Up")').first().click();
-  // Wait for the "Done!" button to appear — reliable indicator the status updated
-  await page.waitForSelector('button:has-text("Done")', { timeout: 10_000 }).catch(() => {});
+  // Wait for the "Mark done" circle button to appear — reliable indicator the status updated
+  await page.waitForSelector('button[aria-label="Mark done"]', { timeout: 10_000 }).catch(() => {});
   await hasText(page, 'picked up')
     ? pass('Task 1 status changed to "picked up"')
     : fail('Task 1 status not "picked up" after pickup');
@@ -675,9 +676,9 @@ async function run() {
 
   // Mark done
   info('Marking task 1 as done...');
-  await page.locator('button:has-text("Done")').first().click();
+  await page.locator('button[aria-label="Mark done"]').first().click();
   await waitData(page);
-  await hasText(page, 'pending verification')
+  await has(page, '.badge-status-pending_verification')
     ? pass('Task 1 status changed to "pending verification"')
     : fail('Task 1 not showing "pending verification"');
 
@@ -686,7 +687,7 @@ async function run() {
   if (await page.locator('button:has-text("Pick Up")').count() > 0) {
     await page.locator('button:has-text("Pick Up")').first().click();
     await waitData(page);
-    await page.locator('button:has-text("Done")').first().click();
+    await page.locator('button[aria-label="Mark done"]').first().click();
     await waitData(page);
     pass('Task 2 picked up and submitted for verification');
   } else {
@@ -694,7 +695,7 @@ async function run() {
   }
 
   // Check pending filter
-  await page.click('button:has-text("pending verification")').catch(() => {});
+  await page.click('button:has-text("Pending")').catch(() => {});
   await page.waitForTimeout(500);
   const pendingTasks = await page.locator('.task-card').count();
   pendingTasks >= 1
@@ -749,9 +750,9 @@ async function run() {
   pass('Parent logged in');
 
   // Dashboard should show pending task verifications
-  await hasText(page, 'Pending Verifications')
-    ? pass('Dashboard shows "Pending Verifications" section')
-    : fail('"Pending Verifications" section missing from dashboard');
+  await hasText(page, 'Tasks to Verify')
+    ? pass('Dashboard shows "Tasks to Verify" section')
+    : fail('"Tasks to Verify" section missing from dashboard');
 
   // Approve task 1 from dashboard
   info('Approving first pending task from dashboard...');
@@ -767,11 +768,11 @@ async function run() {
   // Go to tasks page and reject task 2
   await goNav(page, '/tasks', 'Tasks page');
   info('Switching to "pending verification" filter...');
-  await page.click('button:has-text("pending verification")').catch(() => {});
+  await page.click('button:has-text("Pending")').catch(() => {});
   await page.waitForTimeout(500);
 
   info('Rejecting second pending task...');
-  const rejectBtn = page.locator('button:has-text("❌")').first();
+  const rejectBtn = page.locator('button[aria-label="Reject task"]').first();
   if (await rejectBtn.count() > 0) {
     await rejectBtn.click();
     await waitData(page);
@@ -781,7 +782,7 @@ async function run() {
   }
 
   // Verify completed filter
-  await page.click('button:has-text("completed")').catch(() => {});
+  await page.click('button:has-text("Done")').catch(() => {});
   await page.waitForTimeout(500);
   const completedCount = await page.locator('.task-card').count();
   completedCount >= 1
@@ -824,7 +825,7 @@ async function run() {
   // Approve "New Bicycle" with 50 target points — target the specific card by name
   info('Approving "New Bicycle" with 50 target points...');
   const bicycleCard = page.locator('.dream-card').filter({ hasText: 'New Bicycle' });
-  const bicyclePointsInput = bicycleCard.locator('.points-input, input[placeholder="100"]');
+  const bicyclePointsInput = bicycleCard.locator('.points-input');
   if (await bicyclePointsInput.count() > 0) {
     await bicyclePointsInput.fill('50');
     const approveBicycleBtn = bicycleCard.locator('button:has-text("Approve")');
@@ -842,7 +843,7 @@ async function run() {
   // Reject "Gaming Console" — target specific card
   info('Rejecting "Gaming Console"...');
   const consoleCard = page.locator('.dream-card').filter({ hasText: 'Gaming Console' });
-  const rejectDreamBtn = consoleCard.locator('button:has-text("Reject"), button:has-text("❌")');
+  const rejectDreamBtn = consoleCard.locator('button[aria-label="Reject dream"]');
   if (await rejectDreamBtn.count() > 0) {
     await rejectDreamBtn.click();
     await waitData(page);
@@ -922,8 +923,8 @@ async function run() {
     : fail('Progress bar missing');
 
   // Points/progress text
-  await hasText(page, '/ 50')
-    ? pass('Progress counter "X / 50 pts" shown')
+  await hasText(page, '/50')
+    ? pass('Progress counter "X/50" shown')
     : fail('Progress counter not showing target points');
 
   // Rejected dream visible in rejected filter
@@ -960,7 +961,7 @@ async function run() {
     await page.locator('button:has-text("Pick Up")').first().click();
     await noSpinner(page);
     info('Child marks task done...');
-    await page.locator('button:has-text("Done")').first().click();
+    await page.locator('button[aria-label="Mark done"]').first().click();
     await noSpinner(page);
     pass('Child submitted task for parent approval');
 
@@ -1004,8 +1005,8 @@ async function run() {
     // Verify dream earned_points updated
     await goNav(page, '/dreams', 'Dreams');
     const dreamText = await page.locator('body').innerText();
-    dreamText.match(/\d+\s*\/\s*50/)
-      ? pass('Dream progress updated (X / 50 pts displayed)')
+    dreamText.match(/\d+\/50/)
+      ? pass('Dream progress updated (X/50 pts displayed)')
       : fail('Dream progress counter not updating');
 
   } else {
