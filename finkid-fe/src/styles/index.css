@@ -1407,11 +1407,29 @@ textarea.input {
   .auth-hero {
     padding-top: calc(env(safe-area-inset-top, 16px) + 20px);
   }
+
+  /* Force auth-page to fill the full screen — flex chain can fail on iOS PWA */
+  .auth-page {
+    min-height: 100dvh;
+  }
+
+  /* Extend auth-sheet white bg to cover home indicator area */
+  .auth-sheet {
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), 20px);
+  }
 }
 
 @media (display-mode: standalone) {
   .page-hero,
   .auth-hero {
     padding-top: calc(env(safe-area-inset-top, 16px) + 20px);
+  }
+
+  .auth-page {
+    min-height: 100dvh;
+  }
+
+  .auth-sheet {
+    padding-bottom: max(env(safe-area-inset-bottom, 0px), 20px);
   }
 }
