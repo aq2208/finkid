@@ -1,4 +1,5 @@
 // finkid-fe/src/components/PageTransition.jsx
+import { forwardRef } from 'react'
 import { motion } from 'framer-motion'
 
 const variants = {
@@ -22,9 +23,10 @@ const variants = {
  * direction: -1 = slide from left (navigating back)
  * direction:  0 = fade only (auth pages, same tab)
  */
-export default function PageTransition({ children, direction = 0 }) {
+const PageTransition = forwardRef(function PageTransition({ children, direction = 0 }, ref) {
   return (
     <motion.div
+      ref={ref}
       custom={direction}
       variants={variants}
       initial="enter"
@@ -43,4 +45,6 @@ export default function PageTransition({ children, direction = 0 }) {
       {children}
     </motion.div>
   )
-}
+})
+
+export default PageTransition
