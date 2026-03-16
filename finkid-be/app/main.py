@@ -11,7 +11,7 @@ app = FastAPI(
 )
 
 # CORS middleware for frontend
-origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:3000").split(",")
+origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:3000,https://app.aq2208.site,https://finkid-hazel.vercel.app").split(",")
 
 app.add_middleware(
     CORSMiddleware,
